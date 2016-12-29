@@ -65,6 +65,8 @@ public class Rogue{
 	printFloor();
 	csi.saveBuffer();
 	printPlayer();
+	printStats();
+	csi.refresh();
 	
 	while(running){
 	    int key = csi.inkey().code;
