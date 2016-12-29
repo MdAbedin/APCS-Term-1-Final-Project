@@ -4,11 +4,10 @@ import java.util.Random;
 public class Floor{
     public String[][] map = new String[80][22];
     public Random rng = new Random();
-
     public Floor(){
 	for(int x = 0; x < map.length; x++){
 	    for(int y = 0; y < map[0].length; y++){
-		map[x][y] = ".";
+		map[x][y] = " ";
 	    }
 	}
 
@@ -16,9 +15,10 @@ public class Floor{
     }
 
     public void makeRoom(){
-	int xln = rng.nextInt(27)+4;
+// The Length of the Room will always be at least 5
+  int xln = rng.nextInt(27)+5;
 	int x = rng.nextInt(80-xln);
-	int yln = rng.nextInt(7)+4;
+	int yln = rng.nextInt(7)+5;
 	int y = rng.nextInt(22-yln);
 
 	for(int c = x; c < x + xln; c++){
