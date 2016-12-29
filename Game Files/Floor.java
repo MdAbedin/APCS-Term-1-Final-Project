@@ -35,4 +35,11 @@ public class Floor{
 	    }
 	}
     }
+
+//  public void makePath(){
+//    int startxy;
+//    if (rng.nextInt(1) == 1){
+//      startxy =
+//    }
+//  }
 }
