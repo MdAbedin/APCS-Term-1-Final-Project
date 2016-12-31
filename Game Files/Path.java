@@ -8,7 +8,7 @@ public class Path{
   public int starty;
   public Random rng = new Random();
 
-  // Old code, may be used if the while loops in the path don't work
+  // Old code, used as a reference
   //int temp = rng.nextInt(xLength);
   //if (temp == 0){
   //  temp++;
@@ -16,35 +16,26 @@ public class Path{
   //  temp--;
   //}
 
+  //int temp = rng.nextInt(xLength);
+  //while (temp == 0 || temp == xLength){
+    //temp = rng.nextInt(xLength);
+    //}
+
 
   public Path(Room room){
-    int side = rng.nextInt(3);
+    int side = rng.nextInt(4);
+    // Key: 0 = Top, 1 = Right, 2 = Bottom, 3 = Left
     if (side == 0){
-      int temp = rng.nextInt(xLength);
-      while (temp == 0 || temp == xLength){
-        temp = rng.nextInt(xLength);
-      }
-      startx = room.topLeftx + temp;
+      startx = room.topLeftx + rng.nextInt(xlength - 1) + 1;
       starty = room.topLefty;
     }else if(side == 1){
-      int temp = rng.nextInt(yLength);
-      while (temp == 0 || temp == yLength){
-        temp = rng.nextInt(yLength);
-      }
       startx = room.topLeftx + room.xLength - 1;
-      starty = room.topLefty + rng.nextInt(yLength);
+      starty = room.topLefty + rng.nextInt(yLength - 1) + 1;
     }else if (side == 2){
-      while (temp == 0 || temp == xLength){
-        temp = rng.nextInt(xLength);
-      }
-      startx = room.topLeftx + temp;
+      startx = room.topLeftx + rng.nextInt(xLength - 1) + 1;
       starty = room.topLefty + room.yLength - 1;
     }else if(side == 3){
-      int temp = rng.nextInt(yLength);
-      while (temp == 0 || temp == yLength){
-        temp = rng.nextInt(yLength);
-      }
       startx = room.topLeftx;
-      starty = room.topLefty + temp;
+      starty = room.topLefty + rng.nextInt(yLength - 1) + 1;
   }
 }
