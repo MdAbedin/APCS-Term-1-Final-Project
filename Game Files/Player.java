@@ -16,7 +16,7 @@ public class Player{
 	
 	switch (key){
 	case CharKey.UARROW:
-	    if(map[x][y-1].equals(".")){
+	    if(canMoveTo(x, y-1, map)){
 		y--;
 	    }
 	    else{
@@ -25,7 +25,7 @@ public class Player{
 	    }
 	    break;
 	case CharKey.DARROW:
-	    if(map[x][y+1].equals(".")){
+	    if(canMoveTo(x, y+1, map)){
 		y++;
 	    }
 	    else{
@@ -34,7 +34,7 @@ public class Player{
 	    }
 	    break;
 	case CharKey.LARROW:
-	    if(map[x-1][y].equals(".")){
+	    if(canMoveTo(x-1, y, map)){
 		x--;
 	    }
 	    else{
@@ -43,7 +43,7 @@ public class Player{
 	    }
 	    break;
 	case CharKey.RARROW:
-	    if(map[x+1][y].equals(".")){
+	    if(canMoveTo(x+1, y, map)){
 		x++;
 	    }
 	    else{
@@ -52,5 +52,9 @@ public class Player{
 	    }
 	    break;
 	}
+    }
+
+    public boolean canMoveTo(int x, int y, String[][] map){
+	return map[x][y].equals(".");
     }
 }

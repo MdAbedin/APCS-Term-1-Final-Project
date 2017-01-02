@@ -7,11 +7,18 @@ import java.util.Random;
 
 public class Rogue{
     public ConsoleSystemInterface csi = new WSwingConsoleInterface("Rogue by Md Abedin and Othman Bichouna");
-    public Player p = new Player(40, 11);
     public Floor floor = new Floor();
-    public boolean running;
-    public Random rng = new Random();
+    public Player p = new Player(floor.rooms.get(0).centerX, floor.rooms.get(0).centerY);
 
+    public void initialize(){
+	csi.cls();
+	printFloor();
+	csi.saveBuffer();
+	printPlayer();
+	printStats();
+	csi.refresh();
+    }
+    
     public void printFloor(){
 	for(int x = 0; x < floor.map.length; x++){
 	    for(int y = 0; y < floor.map[0].length; y++){
@@ -39,6 +46,10 @@ public class Rogue{
 	stats += p.maxexp;
 	stats += " Bumps: ";
 	stats += p.bumps;
+	stats += " X: ";
+	stats += p.x;
+	stats += " Y: ";
+	stats += p.y;
 	csi.print(0, 24, stats, CSIColor.MAGENTA);
     }
 
@@ -60,22 +71,15 @@ public class Rogue{
     }
     
     public void run(){
-	running = true;
-	csi.cls();
-	printFloor();
-	csi.saveBuffer();
-	printPlayer();
-	printStats();
-	csi.refresh();
-	
-	while(running){
-	    int key = csi.inkey().code;
-	    p.act(key, floor.map);
+	initialize();
+	while(true){
+	    p.act(csi.inkey().code, floor.map);
 	    updateScreen();
 	}
     }
-
+    
     public static void main(String[] args){
-	new Rogue().run();
+	Rogue r = new Rogue();
+	r.run();
     }
 }
