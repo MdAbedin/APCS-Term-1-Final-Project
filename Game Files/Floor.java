@@ -6,12 +6,14 @@ public class Floor{
     public String[][] map = new String[80][22];
     public Random rng = new Random();
     public ArrayList<Room> rooms = new ArrayList<Room>();
+    public ArrayList<Integer> sections = new ArrayList<Integer>();
     
     public Floor(){
 	initialize();
 	for(int i = 0; i < rng.nextInt(5) + 5; i++){
 	    makeRoom();
 	}
+	connectRooms();
     }
 
     public void initialize(){
@@ -32,7 +34,7 @@ public class Floor{
 	    int y = rng.nextInt(21-yln)+1;
 	    Room room = new Room(x, y, xln, yln);
 	    
-	    if(fits(room)){
+	    if(!sections.contains(room.section) && reachable(room) && fits(room)){
 		for(int c = x; c < x + xln; c++){
 		    for(int r = y; r < y + yln; r++){
 			if(r == y || r == y+yln-1){
@@ -46,8 +48,10 @@ public class Floor{
 			}
 		    }
 		}
-
+		
+		map[room.centerX][room.centerY] = Integer.toString(room.section);
 		rooms.add(room);
+		sections.add(room.section);
 		done = true;
 	    }
 	}
@@ -63,5 +67,37 @@ public class Floor{
 	}
 
 	return true;
+    }
+    
+    public boolean reachable(Room room){
+	if(rooms.size() == 0){
+	    return true;
+	}
+	
+	for(Room r: rooms){
+	    if(room.canConnect(r)){
+		return true;
+	    }
+	}
+	
+	return false;
+    }
+
+    public void connectRooms(){
+	for(int i = 0; i < rooms.size(); i++){
+	    for(int j = i + 1; j < rooms.size(); j++){
+		if(rooms.get(i).canConnect(rooms.get(j))){
+		    connect(rooms.get(i), rooms.get(j));
+		}
+	    }
+	}
+    }
+    
+    public void connect(Room i, Room j){
+	int[] iExit = i.pickExit(j, rng);
+	int[] jExit = j.pickExit(i, rng);
+
+	map[iExit[0]][iExit[1]] = "+";
+	map[jExit[0]][jExit[1]] = "+";
     }
 }
