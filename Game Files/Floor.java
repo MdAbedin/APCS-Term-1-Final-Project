@@ -7,6 +7,7 @@ public class Floor{
     public Random rng = new Random();
     public ArrayList<Room> rooms = new ArrayList<Room>();
     public ArrayList<Integer> sections = new ArrayList<Integer>();
+    public int stairsX, stairsY;
     
     public Floor(){
 	initialize();
@@ -14,6 +15,7 @@ public class Floor{
 	    makeRoom();
 	}
 	connectRooms();
+	placeStairs();
     }
 
     public void initialize(){
@@ -29,9 +31,9 @@ public class Floor{
 
 	while(!done){
 	    int xln = rng.nextInt(27)+5;
-	    int x = rng.nextInt(79-xln)+1;
+	    int x = rng.nextInt(79-xln-1)+2;
 	    int yln = rng.nextInt(6)+4;
-	    int y = rng.nextInt(21-yln)+1;
+	    int y = rng.nextInt(21-yln-1)+2;
 	    Room room = new Room(x, y, xln, yln);
 	    
 	    if(!sections.contains(room.section) && reachable(room) && fits(room)){
@@ -49,7 +51,7 @@ public class Floor{
 		    }
 		}
 		
-		map[room.centerX][room.centerY] = Integer.toString(room.section);
+		//map[room.centerX][room.centerY] = Integer.toString(room.section);
 		rooms.add(room);
 		sections.add(room.section);
 		done = true;
@@ -99,5 +101,45 @@ public class Floor{
 
 	map[iExit[0]][iExit[1]] = "+";
 	map[jExit[0]][jExit[1]] = "+";
+
+	makePath(iExit, jExit);
+    }
+
+    public void makePath(int[] i, int[] j){
+	int xDir = (int)(Math.cbrt(Math.cbrt(j[0] - i[0])));
+	int yDir = (int)(Math.cbrt(Math.cbrt(j[1] - i[1])));
+	int currentX = i[0];
+	int currentY = i[1];
+	int finalX = j[0];
+	int finalY = j[1];
+
+	if(map[currentX+1][currentY].equals(".") || map[currentX-1][currentY].equals(".")){
+	    finalX -= xDir;
+	}
+	else{
+	    finalY -= yDir;
+	}
+
+	while(currentX != finalX || currentY != finalY){
+	    if(currentX != finalX && (map[currentX + xDir][currentY].equals(" ") || map[currentX + xDir][currentY].equals("#"))){
+		map[currentX + xDir][currentY] = "#";
+		currentX += xDir;
+	    }
+	    else if(currentY != finalY && (map[currentX][currentY + yDir].equals(" ") || map[currentX][currentY + yDir].equals("#"))){
+		map[currentX][currentY + yDir] = "#";
+		currentY += yDir;
+	    }
+	    else{
+		currentX = finalX;
+		currentY = finalY;
+	    }
+	}
+    }
+
+    public void placeStairs(){
+	int i = rng.nextInt(rooms.size());
+        map[rooms.get(i).centerX][rooms.get(i).centerY] = "%";
+	stairsX = rooms.get(i).centerX;
+	stairsY = rooms.get(i).centerY;
     }
 }

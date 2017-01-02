@@ -55,6 +55,6 @@ public class Player{
     }
 
     public boolean canMoveTo(int x, int y, String[][] map){
-	return map[x][y].equals(".");
+	return map[x][y].equals(".") || map[x][y].equals("+") || map[x][y].equals("#") || map[x][y].equals("%");
     }
 }

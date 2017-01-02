@@ -1,0 +1,18 @@
+1st Version Goals:
+XFind Library for handling GUI and inputs
+XMake a movable player and GUI that refreshes correctly
+XMake HUD that updates
+XMake a random rooms generator
+XConnect rooms with paths
+XMake multiple floors and stairs to travel between them
+
+-Make sure every room is reachable
+-Make final floor with an item to end the game
+-Make dungeon parts invisible until explored
+-Improve path shapes and room placement
+
+2nd Version Goals:
+-Make enemies with AI and a battle system
+-Improve dungeon generator to make more complex rooms/paths
+-Make menu
+-Make random items that are usable

@@ -69,12 +69,26 @@ public class Rogue{
 	printPlayer();
 	csi.refresh();	
     }
+
+    public boolean onStairs(){
+	return p.x == floor.stairsX && p.y == floor.stairsY;
+    }
+
+    public void newFloor(){
+	floor = new Floor();
+	p = new Player(floor.rooms.get(0).centerX, floor.rooms.get(0).centerY);
+	csi.cls();
+	initialize();
+    }
     
     public void run(){
 	initialize();
 	while(true){
 	    p.act(csi.inkey().code, floor.map);
 	    updateScreen();
+	    if(onStairs()){
+		newFloor();
+	    }
 	}
     }
     
