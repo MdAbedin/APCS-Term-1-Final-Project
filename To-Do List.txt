@@ -16,3 +16,6 @@ XMake multiple floors and stairs to travel between them
 -Improve dungeon generator to make more complex rooms/paths
 -Make menu
 -Make random items that are usable
+-Have rooms be specific colors based on what floor the player is on
+-Add special items that have a rare chance of appearing
+-Create special enemies (bosses) that have cool effects on the player
