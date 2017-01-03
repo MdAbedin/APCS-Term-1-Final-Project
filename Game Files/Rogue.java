@@ -18,7 +18,7 @@ public class Rogue{
 	printStats();
 	csi.refresh();
     }
-    
+
     public void printFloor(){
 	for(int x = 0; x < floor.map.length; x++){
 	    for(int y = 0; y < floor.map[0].length; y++){
@@ -38,8 +38,8 @@ public class Rogue{
 	stats += p.maxhp;
 	stats += " Str: ";
 	stats += p.str;
-	stats += " Ac: ";
-	stats += p.ac;
+	stats += " Ar: ";
+	stats += p.ar;
 	stats += " Exp: ";
 	stats += p.exp;
 	stats += "/";
@@ -60,14 +60,14 @@ public class Rogue{
     public void printPlayer(){
 	csi.print(p.x, p.y + 1, "@", CSIColor.BRIGHT_GREEN);
     }
-    
+
     public void updateScreen(){
 	csi.cls();
 	csi.restore();
 	printMessage();
 	printStats();
 	printPlayer();
-	csi.refresh();	
+	csi.refresh();
     }
 
     public boolean onStairs(){
@@ -80,7 +80,7 @@ public class Rogue{
 	csi.cls();
 	initialize();
     }
-    
+
     public void run(){
 	initialize();
 	while(true){
@@ -91,7 +91,7 @@ public class Rogue{
 	    }
 	}
     }
-    
+
     public static void main(String[] args){
 	Rogue r = new Rogue();
 	r.run();
