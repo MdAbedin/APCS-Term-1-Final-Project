@@ -8,7 +8,9 @@ public class Floor{
     public ArrayList<Room> rooms = new ArrayList<Room>();
     public ArrayList<Integer> sections = new ArrayList<Integer>();
     public int stairsX, stairsY;
-    
+    public int currentFloor;
+    public int floorsPassed;
+
     public Floor(){
 	initialize();
 	for(int i = 0; i < rng.nextInt(5) + 5; i++){
@@ -25,7 +27,7 @@ public class Floor{
 	    }
 	}
     }
-    
+
     public void makeRoom(){
 	boolean done = false;
 
@@ -35,7 +37,7 @@ public class Floor{
 	    int yln = rng.nextInt(6)+4;
 	    int y = rng.nextInt(21-yln-1)+2;
 	    Room room = new Room(x, y, xln, yln);
-	    
+
 	    if(!sections.contains(room.section) && reachable(room) && fits(room)){
 		for(int c = x; c < x + xln; c++){
 		    for(int r = y; r < y + yln; r++){
@@ -50,7 +52,7 @@ public class Floor{
 			}
 		    }
 		}
-		
+
 		//map[room.centerX][room.centerY] = Integer.toString(room.section);
 		rooms.add(room);
 		sections.add(room.section);
@@ -70,18 +72,18 @@ public class Floor{
 
 	return true;
     }
-    
+
     public boolean reachable(Room room){
 	if(rooms.size() == 0){
 	    return true;
 	}
-	
+
 	for(Room r: rooms){
 	    if(room.canConnect(r)){
 		return true;
 	    }
 	}
-	
+
 	return false;
     }
 
@@ -94,7 +96,7 @@ public class Floor{
 	    }
 	}
     }
-    
+
     public void connect(Room i, Room j){
 	int[] iExit = i.pickExit(j, rng);
 	int[] jExit = j.pickExit(i, rng);
