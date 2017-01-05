@@ -94,6 +94,7 @@ public class Rogue{
 
     public static void main(String[] args){
 	Rogue r = new Rogue();
+	r.floor.itemGeneration(p);
 	r.run();
     }
 }

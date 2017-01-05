@@ -144,4 +144,16 @@ public class Floor{
 	stairsX = rooms.get(i).centerX;
 	stairsY = rooms.get(i).centerY;
     }
+
+    public void itemGeneration(Player p){
+	int num = rng.nextInt(5) + 1 + p.level;
+        ArrayList<Item> items = new ArrayList<Item>();
+	for (int i = 0; i < num; i++){
+	    items.add(Item(p));
+	}
+
+	System.out.println(items.get(0).type);
+	
+    }
+    
 }
