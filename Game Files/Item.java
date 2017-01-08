@@ -29,6 +29,9 @@ public class Item{
   public String[] feet = {"shoes","greaves","boots","sandals","slippers"};
   public String[] food = {"apple","cabbage","meat stick","turkey","potato","cheese stick","onion"};
   public String[] jewel = {"diamond","ruby","emerald","sapphire","topaz","pearl","garnet","opal"};
+
+
+
   public Item(Player p){
     int temp = rng.nextInt(7);
     if (temp == 0){
@@ -36,7 +39,7 @@ public class Item{
       type = "weapon";
       rarity = rare(p);
       String weaponType = weapons[rng.nextInt(9)];
-      name = rarity + adjective[rng.nextInt(100)] + " " + weaponType;
+      name = rarity + adjectives[rng.nextInt(100)] + " " + weaponType;
       if (weaponType.equals("sword")){
         stats = (int)((rng.nextInt(3) * p.level + 1) * raritybonus);
       }else if (weaponType.equals("long sword")){
@@ -62,35 +65,35 @@ public class Item{
       //chest, hands, feet: add to ar
       type = "chest";
       rarity = rare(p);
-      name = rarity + adjective[rng.nextInt(100)] + " " + armor[rng.nextInt(5)];
+      name = rarity + adjectives[rng.nextInt(100)] + " " + armor[rng.nextInt(5)];
       stats = (int)((rng.nextInt(4) * p.level + 1) * raritybonus);
       pickedUp = false;
       description = "A " + name + ". This item has ar: " + stats;
     }else if (temp == 2){
       type = "hands";
       rarity = rare(p);
-      name = rarity + adjective[rng.nextInt(100)] + " " + hands[rng.nextInt(2)];
+      name = rarity + adjectives[rng.nextInt(100)] + " " + hands[rng.nextInt(2)];
       stats = (int)((rng.nextInt(2) * p.level + 1) * raritybonus);
       pickedUp = false;
       description = "A " + name + ". This item has ar: " + stats;
     }else if (temp == 3){
       type = "feet";
       rarity = rare(p);
-      name = rarity + adjective[rng.nextInt(100)] + " " + hands[rng.nextInt(5)];
+      name = rarity + adjectives[rng.nextInt(100)] + " " + hands[rng.nextInt(5)];
       stats = (int)((rng.nextInt(3) * p.level + 1) * raritybonus);
       pickedUp = false;
       description = "A " + name + ". This item has ar: " + stats;
     }else if (temp == 4){
       //food: the stat should be addition to health when used
       type = "food";
-      name = rarity + adjective[rng.nextInt(100)] + " " + food[rng.nextInt(7)];
+      name = rarity + adjectives[rng.nextInt(100)] + " " + food[rng.nextInt(7)];
       stats = rng.nextInt(10) + 5 + p.level;
       pickedUp = false;
       description = "A " + name + ". When used gives " + stats + " hp";
     }else if (temp == 5){
       type = "ring";
       rarity = rare(p);
-      name = rarity + adjective[rng.nextInt(100)] + jewel[rng.nextInt(8)] + " ring";
+      name = rarity + adjectives[rng.nextInt(100)] + jewel[rng.nextInt(8)] + " ring";
       //rings and amulets add to both str and ar
       stats = (int)((rng.nextInt(3) * p.level + 1) * raritybonus);
       secondStat = (int)((rng.nextInt(2) * p.level + 1) * raritybonus);
@@ -99,7 +102,7 @@ public class Item{
     }else if (temp == 6){
       type = "amulet";
       rarity = rare(p);
-      name = rarity + adjective[rng.nextInt(100)] + jewel[rng.nextInt(8)] + " amulet";
+      name = rarity + adjectives[rng.nextInt(100)] + jewel[rng.nextInt(8)] + " amulet";
       stats = (int)((rng.nextInt(4) * p.level + 1) * raritybonus);
       secondStat = (int)((rng.nextInt(3) * p.level + 1) * raritybonus);
       pickedUp = false;
@@ -121,9 +124,8 @@ public class Item{
       raritybonus = 3.0;
       return "legendary";
       }
-    }else{
-      return "";
     }
+    return "";
 }
 
   public boolean cursedOrBlessed(Item i, Player p){
@@ -135,16 +137,17 @@ public class Item{
       cursed = true;
       i.name = "Cursed " + i.name;
       stats = stats - (rng.nextInt(p.level) + 1);
-      i.description = "This item is cursed! It has reduced stats"
+      i.description = "This item is cursed! It has reduced stats";
       return true;
     }
     if (temp == 1){
       blessed = true;
       i.name = "Blessed " + i.name;
       stats = stats + (rng.nextInt(p.level) + 1);
-      i.description = "This item is blessed! It has increased stats"
+      i.description = "This item is blessed! It has increased stats";
       return true;
     }
+    return false;
   }
 
 }
