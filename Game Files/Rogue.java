@@ -79,13 +79,14 @@ public class Rogue{
 	csi.cls();
 	initialize();
     }
-
+    
     public void run(){
 	initialize();
 	while(true){
-	    p.act(csi.inkey().code, floor.map);
+	    int key = csi.inkey().code;
+	    p.act(key, floor.map);
 	    updateScreen();
-	    if(onStairs()){
+	    if(key == CharKey.n){
 		newFloor();
 	    }
 	}

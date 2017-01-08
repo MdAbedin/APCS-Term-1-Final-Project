@@ -12,11 +12,11 @@ public class Floor{
 
     public Floor(){
 	initialize();
-	for(int i = 0; i < rng.nextInt(5) + 5; i++){
+	for(int i = 0; i < rng.nextInt(6) + 4; i++){
 	    makeRoom();
 	}
 	connectRooms();
-	placeStairs();
+	//placeStairs();
     }
 
     public void initialize(){
@@ -31,10 +31,10 @@ public class Floor{
 	boolean done = false;
 
 	while(!done){
-	    int xln = rng.nextInt(27)+5;
-	    int x = rng.nextInt(79-xln-1)+2;
-	    int yln = rng.nextInt(6)+4;
-	    int y = rng.nextInt(21-yln-1)+2;
+	    int xln = rng.nextInt(22)+5;
+	    int x = rng.nextInt(79-xln)+1;
+	    int yln = rng.nextInt(4)+4;
+	    int y = rng.nextInt(21-yln)+1;
 	    Room room = new Room(x, y, xln, yln);
 
 	    if(!sections.contains(room.section) && reachable(room) && fits(room)){
@@ -52,7 +52,7 @@ public class Floor{
 		    }
 		}
 
-		//map[room.centerX][room.centerY] = Integer.toString(room.section);
+		map[room.centerX][room.centerY] = Integer.toString(room.section);
 		rooms.add(room);
 		sections.add(room.section);
 		done = true;
@@ -91,6 +91,8 @@ public class Floor{
 	    for(int j = i + 1; j < rooms.size(); j++){
 		if(rooms.get(i).canConnect(rooms.get(j))){
 		    connect(rooms.get(i), rooms.get(j));
+		    rooms.get(i).connectedRooms.add(rooms.get(j).section);
+		    rooms.get(j).connectedRooms.add(rooms.get(i).section);
 		}
 	    }
 	}

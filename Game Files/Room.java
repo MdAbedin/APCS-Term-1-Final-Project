@@ -1,10 +1,12 @@
 import java.util.Random;
+import java.util.ArrayList;
 
 public class Room{
     public int x, y;
     public int xln, yln;
     public int centerX, centerY;
     public int section;
+    public ArrayList<Integer> connectedRooms = new ArrayList<Integer>();
 
     public Room(int x, int y, int xln, int yln){
 	this.x = x;
@@ -28,63 +30,41 @@ public class Room{
 	boolean b;
 
 	if(section / 3 == other.section / 3){
-	    b = other.section == section + 1 || other.section == section - 1 || other.section == section;
+	    b = other.section == section + 1 || other.section == section - 1;
 	}
 	else{
 	    b = other.section == section + 3 || other.section == section - 3;
 	}
+
+	b = !connectedRooms.contains(other.section) && b;
 	
 	return b;
     }
 
     public int[] pickExit(Room other, Random rng){
-	//optimize
+	int[] exit = new int[2];
 	int left = x - (other.x + other.xln - 1);
 	int right = other.x - (x + xln - 1);
 	int up = y - (other.y + other.yln - 1);
 	int down = other.y - (y + yln - 1);
-	int[] p = new int[2];
-
-	int h = Math.max(left, right);
-	int v = Math.max(up, down);
-
-	if((left > 0 || right > 0) && (up > 0 || down > 0)){
-	    if(right < v && right > 0){
-		p[0] = x + xln - 1;
-		p[1] = rng.nextInt(yln - 2) + 1 + y;
-	    }
-	    if(left < v && left > 0){
-		p[0] = x;
-		p[1] = rng.nextInt(yln - 2) + 1 + y;
-	    }
-	    if(up < h && up > 0){
-		p[0] = rng.nextInt(xln - 2) + 1 + x;
-		p[1] = y;
-	    }
-	    if(down < h && down > 0){
-		p[0] = rng.nextInt(xln - 2) + 1 + x;
-		p[1] = y + yln - 1;
-	    }
-	}
-	else{
-	    if(right > 0){
-		p[0] = x + xln - 1;
-		p[1] = rng.nextInt(yln - 2) + 1 + y;
-	    }
-	    if(left > 0){
-		p[0] = x;
-		p[1] = rng.nextInt(yln - 2) + 1 + y;
-	    }
-	    if(up > 0){
-		p[0] = rng.nextInt(xln - 2) + 1 + x;
-		p[1] = y;
-	    }
-	    if(down > 0){
-		p[0] = rng.nextInt(xln - 2) + 1 + x;
-		p[1] = y + yln - 1;
-	    }
-	}
 	
-	return p;
+	if(right > 0){
+	    exit[0] = x + xln - 1;
+	    exit[1] = centerY;
+	}
+	if(left > 0){
+	    exit[0] = x;
+	    exit[1] = centerY;
+	}
+	if(up > 0){
+	    exit[0] = centerX;
+	    exit[1] = y;
+	}
+	if(down > 0){
+	    exit[0] = centerX;
+	    exit[1] = y + yln - 1;
+	}
+
+	return exit;
     }
 }
