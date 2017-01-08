@@ -2,7 +2,6 @@ import net.slashie.libjcsi.CSIColor;
 import net.slashie.libjcsi.CharKey;
 import net.slashie.libjcsi.ConsoleSystemInterface;
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
-import java.util.Properties;
 import java.util.Random;
 
 public class Rogue{
@@ -94,7 +93,7 @@ public class Rogue{
 
     public static void main(String[] args){
 	Rogue r = new Rogue();
-	r.floor.itemGeneration(p);
+	//r.floor.itemGeneration(r.p);
 	r.run();
     }
 }

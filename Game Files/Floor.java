@@ -1,4 +1,3 @@
-import net.slashie.libjcsi.CSIColor;
 import java.util.Random;
 import java.util.ArrayList;
 
@@ -149,7 +148,7 @@ public class Floor{
 	int num = rng.nextInt(5) + 1 + p.level;
         ArrayList<Item> items = new ArrayList<Item>();
 	for (int i = 0; i < num; i++){
-	    items.add(Item(p));
+	    //items.add(Item(p));
 	}
 
 	System.out.println(items.get(0).type);
