@@ -7,6 +7,8 @@ public class Room{
     public int centerX, centerY;
     public int section;
     public ArrayList<Integer> connectedRooms = new ArrayList<Integer>();
+    public boolean discovered = false;
+    public boolean isInside = false;
 
     public Room(int x, int y, int xln, int yln){
 	this.x = x;
@@ -48,23 +50,27 @@ public class Room{
 	int up = y - (other.y + other.yln - 1);
 	int down = other.y - (y + yln - 1);
 	
-	if(right > 0){
+	if(right > 1){
 	    exit[0] = x + xln - 1;
 	    exit[1] = centerY;
 	}
-	if(left > 0){
+	if(left > 1){
 	    exit[0] = x;
 	    exit[1] = centerY;
 	}
-	if(up > 0){
+	if(up > 1){
 	    exit[0] = centerX;
 	    exit[1] = y;
 	}
-	if(down > 0){
+	if(down > 1){
 	    exit[0] = centerX;
 	    exit[1] = y + yln - 1;
 	}
 
 	return exit;
+    }
+
+    public boolean isInside(Player p){
+	return p.x >= x && p.x <= (x + xln - 1) && p.y >= y && p.y <= (y + yln - 1);
     }
 }

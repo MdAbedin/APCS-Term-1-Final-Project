@@ -3,14 +3,23 @@ import net.slashie.libjcsi.CharKey;
 import net.slashie.libjcsi.ConsoleSystemInterface;
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
 import java.util.Random;
+import java.util.ArrayList;
 
 public class Rogue{
     public ConsoleSystemInterface csi = new WSwingConsoleInterface("Rogue by Md Abedin and Othman Bichouna");
-    public Floor floor = new Floor();
-    public Player p = new Player(floor.rooms.get(0).centerX, floor.rooms.get(0).centerY);
+    public ArrayList<Floor> floors = new ArrayList<Floor>();
+    public int currentFloor = 0;
+    public Player p;
+    public int currentRoom = 0;
 
+    public Rogue(){
+	floors.add(new Floor());
+	p = new Player(floors.get(currentFloor).rooms.get(0).centerX, floors.get(currentFloor).rooms.get(0).centerY);
+    }
+    
     public void initialize(){
 	csi.cls();
+	updateFloor();
 	printFloor();
 	csi.saveBuffer();
 	printPlayer();
@@ -19,13 +28,48 @@ public class Rogue{
     }
 
     public void printFloor(){
-	for(int x = 0; x < floor.map.length; x++){
-	    for(int y = 0; y < floor.map[0].length; y++){
-		csi.print(x, y + 1, floor.map[x][y]);
-	    }
+	for(Room r: floors.get(currentFloor).rooms){
+	    printRoom(r);
+	}
+	csi.print(p.x, p.y + 1, floors.get(currentFloor).map[p.x][p.y]);
+	if(floors.get(currentFloor).map[p.x+1][p.y] == "#" || floors.get(currentFloor).map[p.x+1][p.y] == "+"){
+	    csi.print(p.x + 1, p.y + 1, floors.get(currentFloor).map[p.x+1][p.y]);
+	}
+	if(floors.get(currentFloor).map[p.x-1][p.y] == "#" || floors.get(currentFloor).map[p.x-1][p.y] == "+"){
+	    csi.print(p.x - 1, p.y + 1, floors.get(currentFloor).map[p.x-1][p.y]);
+	}
+	if(floors.get(currentFloor).map[p.x][p.y+1] == "#" || floors.get(currentFloor).map[p.x][p.y+1] == "+"){
+	    csi.print(p.x, p.y + 2, floors.get(currentFloor).map[p.x][p.y+1]);
+	}
+	if(floors.get(currentFloor).map[p.x][p.y-1] == "#" || floors.get(currentFloor).map[p.x][p.y-1] == "+"){
+	    csi.print(p.x, p.y, floors.get(currentFloor).map[p.x][p.y-1]);
 	}
     }
 
+    public void printRoom(Room r){
+	if(r.discovered){
+	    if(r.isInside){
+		for(int x = r.x; x < r.x + r.xln; x++){
+		    for(int y = r.y; y < r.y + r.yln; y++){
+			csi.print(x, y+1, floors.get(currentFloor).map[x][y]);
+		    }
+		}
+	    }
+	    else{
+		for(int x = r.x; x < r.x + r.xln; x++){
+		    for(int y = r.y; y < r.y + r.yln; y++){
+			if(x == r.x || x == (r.x+r.xln-1) || y == r.y || y == (r.y+r.yln-1)){
+			    csi.print(x, y+1, floors.get(currentFloor).map[x][y]);
+			}
+			else{
+			    csi.print(x, y+1, " ");
+			}
+		    }
+		}
+	    }
+	}
+    }
+    
     public void printStats(){
 	String stats = "Level: ";
 	stats += p.level;
@@ -45,10 +89,10 @@ public class Rogue{
 	stats += p.maxexp;
 	stats += " Bumps: ";
 	stats += p.bumps;
-	stats += " X: ";
-	stats += p.x;
-	stats += " Y: ";
-	stats += p.y;
+	stats += " Floor: ";
+	stats += currentFloor + 1;
+	stats += " Room: ";
+	stats += currentRoom;
 	csi.print(0, 24, stats, CSIColor.MAGENTA);
     }
 
@@ -63,6 +107,8 @@ public class Rogue{
     public void updateScreen(){
 	csi.cls();
 	csi.restore();
+	printFloor();
+	csi.saveBuffer();
 	printMessage();
 	printStats();
 	printPlayer();
@@ -70,25 +116,40 @@ public class Rogue{
     }
 
     public boolean onStairs(){
-	return p.x == floor.stairsX && p.y == floor.stairsY;
+	return p.x == floors.get(currentFloor).stairsX && p.y == floors.get(currentFloor).stairsY;
+    }
+    
+    public void newFloor(){
+	floors.add(new Floor());
+	currentFloor++;
+	p.x = floors.get(currentFloor).rooms.get(0).centerX;
+	p.y = floors.get(currentFloor).rooms.get(0).centerY;
+	initialize();
     }
 
-    public void newFloor(){
-	floor = new Floor();
-	p = new Player(floor.rooms.get(0).centerX, floor.rooms.get(0).centerY);
-	csi.cls();
-	initialize();
+    public void updateFloor(){
+	for(int i = 0; i < floors.get(currentFloor).rooms.size(); i++){
+	    Room room = floors.get(currentFloor).rooms.get(i);
+	    if(!room.discovered){
+		room.discovered = room.isInside(p);
+	    }
+	    room.isInside = room.isInside(p);
+	    if(room.isInside(p)){
+		currentRoom = i;
+	    }
+	}
     }
     
     public void run(){
 	initialize();
 	while(true){
 	    int key = csi.inkey().code;
-	    p.act(key, floor.map);
-	    updateScreen();
-	    if(key == CharKey.n){
+	    p.act(key, floors.get(currentFloor).map);
+	    updateFloor();
+	    if(onStairs()){
 		newFloor();
 	    }
+	    updateScreen();
 	}
     }
 

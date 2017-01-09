@@ -7,16 +7,14 @@ public class Floor{
     public ArrayList<Room> rooms = new ArrayList<Room>();
     public ArrayList<Integer> sections = new ArrayList<Integer>();
     public int stairsX, stairsY;
-    public int currentFloor;
-    public int floorsPassed;
 
     public Floor(){
 	initialize();
 	for(int i = 0; i < rng.nextInt(6) + 4; i++){
 	    makeRoom();
+	    connectRooms();
 	}
-	connectRooms();
-	//placeStairs();
+	placeStairs();
     }
 
     public void initialize(){
@@ -52,7 +50,7 @@ public class Floor{
 		    }
 		}
 
-		map[room.centerX][room.centerY] = Integer.toString(room.section);
+		//map[room.centerX][room.centerY] = Integer.toString(room.section);
 		rooms.add(room);
 		sections.add(room.section);
 		done = true;
