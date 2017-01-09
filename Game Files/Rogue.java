@@ -11,9 +11,10 @@ public class Rogue{
     public int currentFloor = 0;
     public Player p;
     public int currentRoom = 0;
+    public int totalFloors = 10;
 
     public Rogue(){
-	floors.add(new Floor());
+	floors.add(new Floor(1, totalFloors));
 	p = new Player(floors.get(currentFloor).rooms.get(0).centerX, floors.get(currentFloor).rooms.get(0).centerY);
     }
     
@@ -120,7 +121,7 @@ public class Rogue{
     }
     
     public void newFloor(){
-	floors.add(new Floor());
+	floors.add(new Floor(currentFloor + 1, totalFloors));
 	currentFloor++;
 	p.x = floors.get(currentFloor).rooms.get(0).centerX;
 	p.y = floors.get(currentFloor).rooms.get(0).centerY;
@@ -147,7 +148,21 @@ public class Rogue{
 	    p.act(key, floors.get(currentFloor).map);
 	    updateFloor();
 	    if(onStairs()){
-		newFloor();
+		if(key == CharKey.M && currentFloor != totalFloors - 1){
+		    newFloor();
+		}
+		else if(key == CharKey.N){
+		    currentFloor--;
+		    p.x = floors.get(currentFloor).rooms.get(0).centerX;
+		    p.y = floors.get(currentFloor).rooms.get(0).centerY;
+		    csi.cls();
+		    updateFloor();
+		    printFloor();
+		    csi.saveBuffer();
+		    printPlayer();
+		    printStats();
+		    csi.refresh();
+		}
 	    }
 	    updateScreen();
 	}

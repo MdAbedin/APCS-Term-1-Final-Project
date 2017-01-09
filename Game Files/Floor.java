@@ -7,14 +7,19 @@ public class Floor{
     public ArrayList<Room> rooms = new ArrayList<Room>();
     public ArrayList<Integer> sections = new ArrayList<Integer>();
     public int stairsX, stairsY;
+    public int amuletX, amuletY;
 
-    public Floor(){
+    public Floor(int num, int totalFloors){
 	initialize();
 	for(int i = 0; i < rng.nextInt(6) + 4; i++){
 	    makeRoom();
 	    connectRooms();
 	}
 	placeStairs();
+	
+	if(num == totalFloors){
+	    placeAmulet();
+	}
     }
 
     public void initialize(){
@@ -37,8 +42,8 @@ public class Floor{
 
 	    if(!sections.contains(room.section) && reachable(room) && fits(room)){
 		for(int c = x; c < x + xln; c++){
-		    for(int r = y; r < y + yln; r++){
-			if(r == y || r == y+yln-1){
+		    for(int r = y; r < y + yln; r++){	
+		if(r == y || r == y+yln-1){
 			    map[c][r] = "-";
 			}
 			else if(c == x || c == x+xln-1){
@@ -144,6 +149,13 @@ public class Floor{
 	stairsY = rooms.get(i).centerY;
     }
 
+    public void placeAmulet(){
+	int i = rng.nextInt(rooms.size());
+	map[rooms.get(i).centerX][rooms.get(i).centerY] = "*";
+        amuletX = rooms.get(i).centerX;
+        amuletY = rooms.get(i).centerY;
+    }
+    
     public void itemGeneration(Player p){
 	int num = rng.nextInt(5) + 1 + p.level;
         ArrayList<Item> items = new ArrayList<Item>();
