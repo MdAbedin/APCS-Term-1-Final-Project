@@ -8,8 +8,7 @@ XMake multiple floors and stairs to travel between them
 XMake sure every room is reachable
 XImprove path shapes and room placement
 XMake dungeon parts invisible until explored
-
--Make final floor with an item to end the game
+XMake final floor with an item to end the game
 
 2nd Version Goals:
 -Make enemies with AI and a battle system

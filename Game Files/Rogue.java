@@ -155,7 +155,7 @@ public class Rogue{
 	    p.act(key, floors.get(currentFloor).map);
 	    updateFloor();
 
-	    if(currentFloor == 1 && p.x == floors.get(currentFloor).amuletX && p.y == floors.get(currentFloor).amuletY){
+	    if(currentFloor == 9 && p.x == floors.get(currentFloor).amuletX && p.y == floors.get(currentFloor).amuletY){
 		p.hasAmulet = true;
 		floors.get(currentFloor).removeAmulet();
 	    }
@@ -191,7 +191,6 @@ public class Rogue{
 
     public static void main(String[] args){
 	Rogue r = new Rogue();
-	//r.floor.itemGeneration(r.p);
 	r.run();
     }
 }
