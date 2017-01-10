@@ -191,7 +191,7 @@ public class Rogue{
 
     public static void main(String[] args){
 	Rogue r = new Rogue();
-	//r.floor.itemGeneration(r.p);
+	r.floor.itemGeneration(r.p);
 	r.run();
     }
 }
