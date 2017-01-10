@@ -23,7 +23,7 @@ public class Room{
 	this.centerX = x + xln/2;
 	this.centerY = y + yln/2;
     }
-    
+
     public void setSection(){
 	section = centerX / 26 + 3 * (centerY / 7);
     }
@@ -39,30 +39,30 @@ public class Room{
 	}
 
 	b = !connectedRooms.contains(other.section) && b;
-	
+
 	return b;
     }
 
-    public int[] pickExit(Room other, Random rng){
+    public int[] pickExit(Room other){
 	int[] exit = new int[2];
 	int left = x - (other.x + other.xln - 1);
 	int right = other.x - (x + xln - 1);
 	int up = y - (other.y + other.yln - 1);
 	int down = other.y - (y + yln - 1);
-	
+
 	if(right > 1){
 	    exit[0] = x + xln - 1;
 	    exit[1] = centerY;
 	}
-	if(left > 1){
+	else if(left > 1){
 	    exit[0] = x;
 	    exit[1] = centerY;
 	}
-	if(up > 1){
+	else if(up > 1){
 	    exit[0] = centerX;
 	    exit[1] = y;
 	}
-	if(down > 1){
+	else if(down > 1){
 	    exit[0] = centerX;
 	    exit[1] = y + yln - 1;
 	}

@@ -16,8 +16,8 @@ public class Floor{
 	    connectRooms();
 	}
 	placeStairs();
-	
-	if(num == totalFloors){
+
+	if(num == 2){
 	    placeAmulet();
 	}
     }
@@ -42,7 +42,7 @@ public class Floor{
 
 	    if(!sections.contains(room.section) && reachable(room) && fits(room)){
 		for(int c = x; c < x + xln; c++){
-		    for(int r = y; r < y + yln; r++){	
+		    for(int r = y; r < y + yln; r++){
 		if(r == y || r == y+yln-1){
 			    map[c][r] = "-";
 			}
@@ -66,7 +66,7 @@ public class Floor{
     public boolean fits(Room room){
 	for(int x = room.x; x < room.x + room.xln; x++){
 	    for(int y = room.y; y < room.y + room.yln; y++){
-		if(!map[x][y].equals(" ") || !map[x+1][y].equals(" ") || !map[x-1][y].equals(" ") || !map[x][y+1].equals(" ") || !map[x][y-1].equals(" ")){
+		if(!map[x][y].equals(" ") || !map[x+1][y].equals(" ") || !map[x-1][y].equals(" ") || !map[x][y+1].equals(" ") || !map[x][y-1].equals(" ") || !map[x+1][y+1].equals(" ") || !map[x+1][y-1].equals(" ") || !map[x-1][y+1].equals(" ") || !map[x-1][y-1].equals(" ")){
 		    return false;
 		}
 	    }
@@ -102,8 +102,8 @@ public class Floor{
     }
 
     public void connect(Room i, Room j){
-	int[] iExit = i.pickExit(j, rng);
-	int[] jExit = j.pickExit(i, rng);
+	int[] iExit = i.pickExit(j);
+	int[] jExit = j.pickExit(i);
 
 	map[iExit[0]][iExit[1]] = "+";
 	map[jExit[0]][jExit[1]] = "+";
@@ -150,12 +150,20 @@ public class Floor{
     }
 
     public void placeAmulet(){
-	int i = rng.nextInt(rooms.size());
-	map[rooms.get(i).centerX][rooms.get(i).centerY] = "*";
-        amuletX = rooms.get(i).centerX;
-        amuletY = rooms.get(i).centerY;
+	boolean done = false;
+
+	while(!done){
+	    int i = rng.nextInt(rooms.size());
+	    if(map[rooms.get(i).centerX][rooms.get(i).centerY].equals(".")){
+		map[rooms.get(i).centerX][rooms.get(i).centerY] = "*";
+		amuletX = rooms.get(i).centerX;
+		amuletY = rooms.get(i).centerY;
+		done = true;
+	    }
+
+	}
     }
-    
+
     public void itemGeneration(Player p){
 	int num = rng.nextInt(5) + 1 + p.level;
         ArrayList<Item> items = new ArrayList<Item>();
@@ -164,7 +172,10 @@ public class Floor{
 	}
 
 	System.out.println(items.get(0).type);
-	
+
     }
-    
+
+    public void removeAmulet(){
+	map[amuletX][amuletY] = ".";
+    }
 }

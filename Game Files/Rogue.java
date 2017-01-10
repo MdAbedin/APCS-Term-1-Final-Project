@@ -12,12 +12,13 @@ public class Rogue{
     public Player p;
     public int currentRoom = 0;
     public int totalFloors = 10;
+    public boolean running = true;
 
     public Rogue(){
 	floors.add(new Floor(1, totalFloors));
 	p = new Player(floors.get(currentFloor).rooms.get(0).centerX, floors.get(currentFloor).rooms.get(0).centerY);
     }
-    
+
     public void initialize(){
 	csi.cls();
 	updateFloor();
@@ -70,7 +71,7 @@ public class Rogue{
 	    }
 	}
     }
-    
+
     public void printStats(){
 	String stats = "Level: ";
 	stats += p.level;
@@ -119,10 +120,10 @@ public class Rogue{
     public boolean onStairs(){
 	return p.x == floors.get(currentFloor).stairsX && p.y == floors.get(currentFloor).stairsY;
     }
-    
+
     public void newFloor(){
-	floors.add(new Floor(currentFloor + 1, totalFloors));
 	currentFloor++;
+	floors.add(new Floor(currentFloor + 1, totalFloors));
 	p.x = floors.get(currentFloor).rooms.get(0).centerX;
 	p.y = floors.get(currentFloor).rooms.get(0).centerY;
 	initialize();
@@ -140,28 +141,48 @@ public class Rogue{
 	    }
 	}
     }
-    
+
+    public void endGame(){
+	csi.cls();
+	csi.print(40, 11, "YOU WIN", CSIColor.YELLOW);
+	csi.refresh();
+    }
+
     public void run(){
 	initialize();
-	while(true){
+	while(running){
 	    int key = csi.inkey().code;
 	    p.act(key, floors.get(currentFloor).map);
 	    updateFloor();
+
+	    if(currentFloor == 1 && p.x == floors.get(currentFloor).amuletX && p.y == floors.get(currentFloor).amuletY){
+		p.hasAmulet = true;
+		floors.get(currentFloor).removeAmulet();
+	    }
+
 	    if(onStairs()){
-		if(key == CharKey.M && currentFloor != totalFloors - 1){
+		if(key == CharKey.MORETHAN && currentFloor != totalFloors - 1){
 		    newFloor();
 		}
-		else if(key == CharKey.N){
-		    currentFloor--;
-		    p.x = floors.get(currentFloor).rooms.get(0).centerX;
-		    p.y = floors.get(currentFloor).rooms.get(0).centerY;
-		    csi.cls();
-		    updateFloor();
-		    printFloor();
-		    csi.saveBuffer();
-		    printPlayer();
-		    printStats();
-		    csi.refresh();
+		else if(key == CharKey.LESSTHAN){
+		    if(p.hasAmulet && currentFloor == 0){
+			System.out.println("done");
+			endGame();
+			running = false;
+			break;
+		    }
+		    else{
+			currentFloor--;
+			p.x = floors.get(currentFloor).rooms.get(0).centerX;
+			p.y = floors.get(currentFloor).rooms.get(0).centerY;
+			csi.cls();
+			updateFloor();
+			printFloor();
+			csi.saveBuffer();
+			printPlayer();
+			printStats();
+			csi.refresh();
+		    }
 		}
 	    }
 	    updateScreen();

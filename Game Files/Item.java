@@ -38,7 +38,7 @@ public class Item{
       type = "weapon";
       rarity = rare(p);
       String weaponType = weapons[rng.nextInt(9)];
-      name = rarity + adjectives[rng.nextInt(100)] + " " + weaponType;
+      name = rarity + " " +adjectives[rng.nextInt(100)] + " " + weaponType;
       if (weaponType.equals("sword")){
         stats = (int)((rng.nextInt(3) * p.level + 1) * raritybonus);
       }else if (weaponType.equals("long sword")){
@@ -64,7 +64,7 @@ public class Item{
       //chest, hands, feet: add to ar
       type = "chest";
       rarity = rare(p);
-      name = rarity + adjectives[rng.nextInt(100)] + " " + armor[rng.nextInt(5)];
+      name = rarity + " " + adjectives[rng.nextInt(100)] + " " + armor[rng.nextInt(5)];
       stats = (int)((rng.nextInt(4) * p.level + 1) * raritybonus);
       pickedUp = false;
       description = "A " + name + ". This item has ar: " + stats;
@@ -78,21 +78,21 @@ public class Item{
     }else if (temp == 3){
       type = "feet";
       rarity = rare(p);
-      name = rarity + adjectives[rng.nextInt(100)] + " " + hands[rng.nextInt(5)];
+      name = rarity + adjectives[rng.nextInt(100)] + " " + feet[rng.nextInt(5)];
       stats = (int)((rng.nextInt(3) * p.level + 1) * raritybonus);
       pickedUp = false;
       description = "A " + name + ". This item has ar: " + stats;
     }else if (temp == 4){
       //food: the stat should be addition to health when used
       type = "food";
-      name = rarity + adjectives[rng.nextInt(100)] + " " + food[rng.nextInt(7)];
+      name = rarity + " " + adjectives[rng.nextInt(100)] + " " + food[rng.nextInt(7)];
       stats = rng.nextInt(10) + 5 + p.level;
       pickedUp = false;
       description = "A " + name + ". When used gives " + stats + " hp";
     }else if (temp == 5){
       type = "ring";
       rarity = rare(p);
-      name = rarity + adjectives[rng.nextInt(100)] + jewel[rng.nextInt(8)] + " ring";
+      name = rarity + " " + adjectives[rng.nextInt(100)] + " " + jewel[rng.nextInt(8)] + " ring";
       //rings and amulets add to both str and ar
       stats = (int)((rng.nextInt(3) * p.level + 1) * raritybonus);
       secondStat = (int)((rng.nextInt(2) * p.level + 1) * raritybonus);
@@ -101,7 +101,7 @@ public class Item{
     }else if (temp == 6){
       type = "amulet";
       rarity = rare(p);
-      name = rarity + adjectives[rng.nextInt(100)] + jewel[rng.nextInt(8)] + " amulet";
+      name = rarity + " " + adjectives[rng.nextInt(100)] + " " + jewel[rng.nextInt(8)] + " amulet";
       stats = (int)((rng.nextInt(4) * p.level + 1) * raritybonus);
       secondStat = (int)((rng.nextInt(3) * p.level + 1) * raritybonus);
       pickedUp = false;

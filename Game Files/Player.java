@@ -5,6 +5,7 @@ public class Player{
     public int level = 1, gold = 0, hp = 20, maxhp = 20, str = 4, ar = 0, exp = 0, maxexp = 30;
     public int bumps;
     public String message;
+    public boolean hasAmulet = false;
 
     public Player(int x, int y){
 	this.x = x;
@@ -55,6 +56,6 @@ public class Player{
     }
 
     public boolean canMoveTo(int x, int y, String[][] map){
-	return map[x][y].equals(".") || map[x][y].equals("+") || map[x][y].equals("#") || map[x][y].equals("%");
+	return map[x][y].equals(".") || map[x][y].equals("+") || map[x][y].equals("#") || map[x][y].equals("%") || map[x][y].equals("*");
     }
 }
