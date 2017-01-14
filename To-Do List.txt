@@ -8,14 +8,16 @@ XMake multiple floors and stairs to travel between them
 XMake sure every room is reachable
 XImprove path shapes and room placement
 XMake dungeon parts invisible until explored
-
--Make final floor with an item to end the game
+XMake final floor with an item to end the game
 
 2nd Version Goals:
--Make enemies with AI and a battle system
--Improve dungeon generator to make more complex rooms/paths
--Make menu
--Make random items that are usable
+-Make enemies that spawn randonly and wander around
+-Make an AI so they seek out the player
+-Make battle system and death
+-Make items that are randomly placed and can be picked up
+-Make menu to use items
+-Make items cause buffs/nerfs
+-Improve dungeon generator to make more complex rooms and paths
 -Have rooms be specific colors based on what floor the player is on
 -Add special items that have a rare chance of appearing
 -Create special enemies (bosses) that have cool effects on the player

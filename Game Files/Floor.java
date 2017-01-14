@@ -17,7 +17,7 @@ public class Floor{
 	}
 	placeStairs();
 
-	if(num == 2){
+	if(num == 10){
 	    placeAmulet();
 	}
     }
