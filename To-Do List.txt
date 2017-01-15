@@ -11,6 +11,8 @@ XMake dungeon parts invisible until explored
 XMake final floor with an item to end the game
 
 2nd Version Goals:
+XClean up V1 code
+
 -Make enemies that spawn randonly and wander around
 -Make an AI so they seek out the player
 -Make battle system and death

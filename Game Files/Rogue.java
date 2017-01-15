@@ -9,14 +9,19 @@ public class Rogue{
     public ConsoleSystemInterface csi = new WSwingConsoleInterface("Rogue by Md Abedin and Othman Bichouna");
     public ArrayList<Floor> floors = new ArrayList<Floor>();
     public int currentFloor = 0;
+    public Floor floor;
     public Player p;
     public int currentRoom = 0;
-    public int totalFloors = 10;
+    public int totalFloors = 3;
     public boolean running = true;
 
     public Rogue(){
-	floors.add(new Floor(1, totalFloors));
-	p = new Player(floors.get(currentFloor).rooms.get(0).centerX, floors.get(currentFloor).rooms.get(0).centerY);
+	for(int i = 0; i < totalFloors; i++){
+	    floors.add(new Floor(i, totalFloors));
+	}
+	
+	floor = floors.get(currentFloor);
+	p = new Player(floor.rooms.get(0).centerX, floor.rooms.get(0).centerY);
     }
 
     public void initialize(){
@@ -25,6 +30,7 @@ public class Rogue{
 	printFloor();
 	csi.saveBuffer();
 	printPlayer();
+	printEnemies();
 	printStats();
 	csi.refresh();
     }
@@ -33,7 +39,7 @@ public class Rogue{
 	for(Room r: floors.get(currentFloor).rooms){
 	    printRoom(r);
 	}
-	csi.print(p.x, p.y + 1, floors.get(currentFloor).map[p.x][p.y]);
+
 	if(floors.get(currentFloor).map[p.x+1][p.y] == "#" || floors.get(currentFloor).map[p.x+1][p.y] == "+"){
 	    csi.print(p.x + 1, p.y + 1, floors.get(currentFloor).map[p.x+1][p.y]);
 	}
@@ -92,9 +98,7 @@ public class Rogue{
 	stats += " Bumps: ";
 	stats += p.bumps;
 	stats += " Floor: ";
-	stats += currentFloor + 1;
-	stats += " Room: ";
-	stats += currentRoom;
+	stats += currentFloor;
 	csi.print(0, 24, stats, CSIColor.MAGENTA);
     }
 
@@ -106,6 +110,12 @@ public class Rogue{
 	csi.print(p.x, p.y + 1, "@", CSIColor.BRIGHT_GREEN);
     }
 
+    public void printEnemies(){
+	for(int i = 0; i < floor.enemies.size(); i++){
+	    csi.print(floor.enemies.get(i).x, floor.enemies.get(i).y + 1, "E", CSIColor.RED);
+	}
+    }
+    
     public void updateScreen(){
 	csi.cls();
 	csi.restore();
@@ -114,37 +124,52 @@ public class Rogue{
 	printMessage();
 	printStats();
 	printPlayer();
+	//printEnemies();
 	csi.refresh();
     }
 
     public boolean onStairs(){
-	return p.x == floors.get(currentFloor).stairsX && p.y == floors.get(currentFloor).stairsY;
+	return p.x == floor.stairsX && p.y == floor.stairsY;
     }
 
-    public void newFloor(){
-	currentFloor++;
-	floors.add(new Floor(currentFloor + 1, totalFloors));
-	p.x = floors.get(currentFloor).rooms.get(0).centerX;
-	p.y = floors.get(currentFloor).rooms.get(0).centerY;
-	initialize();
+    public boolean onAmulet(){
+	return p.x == floor.amuletX && p.y == floor.amuletY;
+    }
+    
+    public void changeFloor(int index){
+	if(index >= 0 && index < totalFloors){
+	    currentFloor = index;
+	    floor = floors.get(currentFloor);
+	    p.x = floor.rooms.get(0).centerX;
+	    p.y = floor.rooms.get(0).centerY;
+	    initialize();
+	}
     }
 
     public void updateFloor(){
-	for(int i = 0; i < floors.get(currentFloor).rooms.size(); i++){
-	    Room room = floors.get(currentFloor).rooms.get(i);
+	for(int i = 0; i < floor.rooms.size(); i++){
+	    Room room = floor.rooms.get(i);
+	    room.isInside = room.isInside(p);
+	    
 	    if(!room.discovered){
 		room.discovered = room.isInside(p);
 	    }
-	    room.isInside = room.isInside(p);
-	    if(room.isInside(p)){
+	    if(room.isInside){
 		currentRoom = i;
 	    }
 	}
     }
 
+    public void moveEnemies(){
+        Floor f = floors.get(currentFloor);
+	for(int i = 0; i < f.enemies.size(); i++){
+	    f.enemies.get(i).act(f.map, p);
+	}
+    }
+    
     public void endGame(){
 	csi.cls();
-	csi.print(40, 11, "YOU WIN", CSIColor.YELLOW);
+	csi.print(33, 12, "YOU WIN", CSIColor.YELLOW);
 	csi.refresh();
     }
 
@@ -153,35 +178,26 @@ public class Rogue{
 	while(running){
 	    int key = csi.inkey().code;
 	    p.act(key, floors.get(currentFloor).map);
+	    //moveEnemies();
 	    updateFloor();
 
-	    if(currentFloor == 9 && p.x == floors.get(currentFloor).amuletX && p.y == floors.get(currentFloor).amuletY){
+	    if(!p.hasAmulet && currentFloor + 1 == totalFloors && onAmulet()){
 		p.hasAmulet = true;
-		floors.get(currentFloor).removeAmulet();
+		floor.removeAmulet();
 	    }
 
 	    if(onStairs()){
-		if(key == CharKey.MORETHAN && currentFloor != totalFloors - 1){
-		    newFloor();
+		if(key == CharKey.MORETHAN){
+		    changeFloor(currentFloor + 1);
 		}
 		else if(key == CharKey.LESSTHAN){
 		    if(p.hasAmulet && currentFloor == 0){
-			System.out.println("done");
 			endGame();
 			running = false;
 			break;
 		    }
 		    else{
-			currentFloor--;
-			p.x = floors.get(currentFloor).rooms.get(0).centerX;
-			p.y = floors.get(currentFloor).rooms.get(0).centerY;
-			csi.cls();
-			updateFloor();
-			printFloor();
-			csi.saveBuffer();
-			printPlayer();
-			printStats();
-			csi.refresh();
+			changeFloor(currentFloor - 1);
 		    }
 		}
 	    }
