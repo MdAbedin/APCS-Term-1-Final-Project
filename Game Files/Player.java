@@ -1,4 +1,5 @@
 import net.slashie.libjcsi.CharKey;
+import java.util.ArrayList;
 
 public class Player{
     public int x, y;
@@ -12,49 +13,40 @@ public class Player{
 	this.y = y;
     }
 
-    public void act(int key, String[][] map, String[][] dynamicMap){
+    public void act(int key, String[][] map, String[][] dynamicMap, ArrayList<Enemy> enemies){
 	message = "";
 	dynamicMap[x][y] = " ";
+	int xDir = 0;
+	int yDir = 0;
+
+	if(key == CharKey.UARROW){
+	    yDir--;
+	}
+	if(key == CharKey.DARROW){
+	    yDir++;
+	}
+	if(key == CharKey.LARROW){
+	    xDir--;
+	}
+	if(key == CharKey.RARROW){
+	    xDir++;
+	}
 	
-	switch (key){
-	case CharKey.UARROW:
-	    if(canMoveTo(x, y-1, map, dynamicMap)){
-		y--;
-	    }
-	    else{
-		message = "Bumped into a " + map[x][y-1] + " above you";
-		bumps++;
-	    }
-	    break;
-	case CharKey.DARROW:
-	    if(canMoveTo(x, y+1, map, dynamicMap)){
-		y++;
-	    }
-	    else{
-		message = "Bumped into a " + map[x][y+1] + " under you";
-		bumps++;
-	    }
-	    break;
-	case CharKey.LARROW:
-	    if(canMoveTo(x-1, y, map, dynamicMap)){
-		x--;
-	    }
-	    else{
-		message = "Bumped into a " + map[x-1][y] + " left of you";
-		bumps++;
-	    }
-	    break;
-	case CharKey.RARROW:
-	    if(canMoveTo(x+1, y, map, dynamicMap)){
-		x++;
-	    }
-	    else{
-		message = "Bumped into a " + map[x+1][y] + " right of you";
-		bumps++;
-	    }
-	    break;
+	if(canMoveTo(x+xDir, y+yDir, map, dynamicMap)){
+	    x += xDir;
+	    y += yDir;
 	}
 
+	if(dynamicMap[x+xDir][y+yDir].equals("E")){
+	    message = "Attacked E";
+	    for(Enemy e: enemies){
+		if(e.living && e.x == x+xDir && e.y == y+yDir){
+		    dynamicMap[x+xDir][y+yDir] = " ";
+		    e.living = false;
+		}
+	    }
+	}
+	
 	dynamicMap[x][y] = "@";
     }
 

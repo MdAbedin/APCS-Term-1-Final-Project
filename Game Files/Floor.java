@@ -18,7 +18,10 @@ public class Floor{
 	    connectRooms();
 	}
 	placeStairs();
-	makeEnemy();
+
+	for(int i = 0; i < rng.nextInt(rooms.size()) + 2; i++){
+	    makeEnemy();
+	}
 	
 	if(currentFloor + 1 == totalFloors){
 	    placeAmulet();

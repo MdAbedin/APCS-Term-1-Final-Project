@@ -30,7 +30,6 @@ public class Rogue{
 	printFloor();
 	csi.saveBuffer();
 	printPlayer();
-	printEnemies();
 	printStats();
 	csi.refresh();
     }
@@ -60,6 +59,9 @@ public class Rogue{
 		for(int x = r.x; x < r.x + r.xln; x++){
 		    for(int y = r.y; y < r.y + r.yln; y++){
 			csi.print(x, y+1, floors.get(currentFloor).map[x][y]);
+			if(floor.dynamicMap[x][y].equals("E")){
+			    csi.print(x, y+1, "E", CSIColor.RED);
+			}
 		    }
 		}
 	    }
@@ -109,12 +111,6 @@ public class Rogue{
     public void printPlayer(){
 	csi.print(p.x, p.y + 1, "@", CSIColor.BRIGHT_GREEN);
     }
-
-    public void printEnemies(){
-	for(int i = 0; i < floor.enemies.size(); i++){
-	    csi.print(floor.enemies.get(i).x, floor.enemies.get(i).y + 1, "E", CSIColor.RED);
-	}
-    }
     
     public void updateScreen(){
 	csi.cls();
@@ -124,7 +120,6 @@ public class Rogue{
 	printMessage();
 	printStats();
 	printPlayer();
-	printEnemies();
 	csi.refresh();
     }
 
@@ -168,7 +163,7 @@ public class Rogue{
     
     public void endGame(){
 	csi.cls();
-	csi.print(33, 12, "YOU WIN", CSIColor.YELLOW);
+	csi.print(40, 12, "YOU WIN", CSIColor.YELLOW);
 	csi.refresh();
     }
 
@@ -176,7 +171,7 @@ public class Rogue{
 	initialize();
 	while(running){
 	    int key = csi.inkey().code;
-	    p.act(key, floor.map, floor.dynamicMap);
+	    p.act(key, floor.map, floor.dynamicMap, floor.enemies);
 	    moveEnemies();
 	    updateFloor();
 
