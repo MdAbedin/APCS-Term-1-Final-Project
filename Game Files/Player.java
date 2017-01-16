@@ -53,4 +53,8 @@ public class Player{
     public boolean canMoveTo(int x, int y, String[][] map, String[][] dynamicMap){
 	return (map[x][y].equals(".") || map[x][y].equals("+") || map[x][y].equals("#") || map[x][y].equals("%") || map[x][y].equals("*")) && dynamicMap[x][y].equals(" ");
     }
+
+    public void pickUp(Item i){
+      
+    }
 }
