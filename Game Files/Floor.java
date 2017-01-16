@@ -12,7 +12,7 @@ public class Floor{
     public int stairsX, stairsY;
     public int amuletX, amuletY;
 
-    public Floor(int currentFloor, int totalFloors){
+    public Floor(int currentFloor, int totalFloors, Player p){
 	initialize();
 	for(int i = 0; i < rng.nextInt(6) + 4; i++){
 	    makeRoom();
@@ -27,6 +27,7 @@ public class Floor{
 	if(currentFloor + 1 == totalFloors){
 	    placeAmulet();
 	}
+  itemGeneration(p);
     }
 
     public void initialize(){
@@ -173,7 +174,7 @@ public class Floor{
     }
 
     public void itemGeneration(Player p){
-	int num = rng.nextInt(5) + 1 + p.level;
+	int num = rng.nextInt(3) + 1 + p.level;
 	for (int i = 0; i < num; i++){
 	    items.add(new Item(p));
 	}

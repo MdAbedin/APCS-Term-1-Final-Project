@@ -31,7 +31,7 @@ public class Player{
 	if(key == CharKey.RARROW){
 	    xDir++;
 	}
-	
+
 	if(canMoveTo(x+xDir, y+yDir, map, dynamicMap)){
 	    x += xDir;
 	    y += yDir;
@@ -46,15 +46,14 @@ public class Player{
 		}
 	    }
 	}
-	
+
 	dynamicMap[x][y] = "@";
     }
 
     public boolean canMoveTo(int x, int y, String[][] map, String[][] dynamicMap){
-	return (map[x][y].equals(".") || map[x][y].equals("+") || map[x][y].equals("#") || map[x][y].equals("%") || map[x][y].equals("*")) && dynamicMap[x][y].equals(" ");
+	return (map[x][y].equals(".") || map[x][y].equals("+") || map[x][y].equals("#") || map[x][y].equals("%") || map[x][y].equals("*") || map[x][y].equals(")")
+   || map[x][y].equals("&") || map[x][y].equals("<") || map[x][y].equals(">") || map[x][y].equals("0") || map[x][y].equals("{")
+  || map[x][y].equals("]")) && dynamicMap[x][y].equals(" ");
     }
 
-    public void pickUp(Item i){
-      
-    }
 }

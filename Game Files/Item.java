@@ -60,6 +60,7 @@ public class Item{
 	    }
 	    pickedUp = false;
 	    description = "A " + name + ". This item has str: " + stats;
+      cursedOrBlessed(p);
 	}else if (temp == 1){
 	    //chest, hands, feet: add to ar
 	    type = "chest";
@@ -68,6 +69,7 @@ public class Item{
 	    stats = (int)((rng.nextInt(4) * p.level + 1) * raritybonus);
 	    pickedUp = false;
 	    description = "A " + name + ". This item has ar: " + stats;
+      cursedOrBlessed(p);
 	}else if (temp == 2){
 	    type = "hands";
 	    rarity = rare(p);
@@ -75,6 +77,7 @@ public class Item{
 	    stats = (int)((rng.nextInt(2) * p.level + 1) * raritybonus);
 	    pickedUp = false;
 	    description = "A " + name + ". This item has ar: " + stats;
+      cursedOrBlessed(p);
 	}else if (temp == 3){
 	    type = "feet";
 	    rarity = rare(p);
@@ -82,6 +85,7 @@ public class Item{
 	    stats = (int)((rng.nextInt(3) * p.level + 1) * raritybonus);
 	    pickedUp = false;
 	    description = "A " + name + ". This item has ar: " + stats;
+      cursedOrBlessed(p);
 	}else if (temp == 4){
 	    //food: the stat should be addition to health when used
 	    type = "food";
@@ -89,6 +93,7 @@ public class Item{
 	    stats = rng.nextInt(10) + 5 + p.level;
 	    pickedUp = false;
 	    description = "A " + name + ". When used gives " + stats + " hp";
+      cursedOrBlessed(p);
 	}else if (temp == 5){
 	    type = "ring";
 	    rarity = rare(p);
@@ -98,6 +103,7 @@ public class Item{
 	    secondStat = (int)((rng.nextInt(2) * p.level + 1) * raritybonus);
 	    pickedUp = false;
 	    description = "A " + name + ". This item has str: " + stats + " ar: " + secondStat;
+      cursedOrBlessed(p);
 	}else if (temp == 6){
 	    type = "amulet";
 	    rarity = rare(p);
@@ -106,6 +112,7 @@ public class Item{
 	    secondStat = (int)((rng.nextInt(3) * p.level + 1) * raritybonus);
 	    pickedUp = false;
 	    description = "A " + name + ". This item has str: " + secondStat + " ar: " + stats;
+      cursedOrBlessed(p);
 	}
     }
 
@@ -127,23 +134,23 @@ public class Item{
 	return "";
     }
 
-    public boolean cursedOrBlessed(Item i, Player p){
-	if (i.type.equals("food")){
+    public boolean cursedOrBlessed(Player p){
+	if (type.equals("food")){
 	    return false;
 	}
 	int temp = rng.nextInt(20);
 	if (temp == 0){
 	    cursed = true;
-	    i.name = "Cursed " + i.name;
+	    name = "Cursed " + name;
 	    stats = stats - (rng.nextInt(p.level) + 1);
-	    i.description = "This item is cursed! It has reduced stats";
+	    description = "This item is cursed! It has reduced stats";
 	    return true;
 	}
 	if (temp == 1){
 	    blessed = true;
-	    i.name = "Blessed " + i.name;
+	    name = "Blessed " + name;
 	    stats = stats + (rng.nextInt(p.level) + 1);
-	    i.description = "This item is blessed! It has increased stats";
+	    description = "This item is blessed! It has increased stats";
 	    return true;
 	}
 	return false;

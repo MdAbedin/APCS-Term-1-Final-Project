@@ -10,14 +10,15 @@ public class Rogue{
     public ArrayList<Floor> floors = new ArrayList<Floor>();
     public int currentFloor = 0;
     public Floor floor;
-    public Player p;
+    public Player p = new Player(0, 0);
     public int currentRoom = 0;
     public int totalFloors = 3;
     public boolean running = true;
+    public ArrayList<Item> inventory = new ArrayList<Item>();
 
     public Rogue(){
 	for(int i = 0; i < totalFloors; i++){
-	    floors.add(new Floor(i, totalFloors));
+	    floors.add(new Floor(i, totalFloors, p));
 	}
 
 	floor = floors.get(currentFloor);
@@ -154,6 +155,16 @@ public class Rogue{
 	    }
 	}
     }
+    public boolean pickUp(){
+      for (int i = 0; i < floor.items.size() - 1; i++){
+        if (floor.items.get(i).x == p.x && floor.items.get(i).y == p.y){
+          inventory.add(floor.items.get(i));
+          floor.map[floor.items.get(i).x][floor.items.get(i).y] = ".";
+          return true;
+        }
+      }
+      return false;
+    }
 
     public void moveEnemies(){
 	for(int i = 0; i < floor.enemies.size(); i++){
@@ -174,8 +185,10 @@ public class Rogue{
 	    p.act(key, floor.map, floor.dynamicMap, floor.enemies);
 	    moveEnemies();
 	    updateFloor();
+      pickUp();
+      //if (pickUp())
 
-	    if(!p.hasAmulet && currentFloor + 1 == totalFloors && onAmulet()){
+      if(!p.hasAmulet && currentFloor + 1 == totalFloors && onAmulet()){
 		p.hasAmulet = true;
 		floor.removeAmulet();
 	    }
