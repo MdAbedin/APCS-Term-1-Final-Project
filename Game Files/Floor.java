@@ -3,21 +3,24 @@ import java.util.ArrayList;
 
 public class Floor{
     public String[][] map = new String[80][22];
+    public String[][] dynamicMap = new String[80][22];
     public Random rng = new Random();
     public ArrayList<Room> rooms = new ArrayList<Room>();
     public ArrayList<Integer> sections = new ArrayList<Integer>();
+    public ArrayList<Enemy> enemies = new ArrayList<Enemy>();
     public int stairsX, stairsY;
     public int amuletX, amuletY;
 
-    public Floor(int num, int totalFloors){
+    public Floor(int currentFloor, int totalFloors){
 	initialize();
 	for(int i = 0; i < rng.nextInt(6) + 4; i++){
 	    makeRoom();
 	    connectRooms();
 	}
 	placeStairs();
-
-	if(num == 10){
+	makeEnemy();
+	
+	if(currentFloor + 1 == totalFloors){
 	    placeAmulet();
 	}
     }
@@ -26,6 +29,7 @@ public class Floor{
 	for(int x = 0; x < map.length; x++){
 	    for(int y = 0; y < map[0].length; y++){
 		map[x][y] = " ";
+		dynamicMap[x][y] = " ";
 	    }
 	}
     }
@@ -193,5 +197,19 @@ public class Floor{
 
     public void removeAmulet(){
 	map[amuletX][amuletY] = ".";
+    }
+
+    public void makeEnemy(){
+	boolean done = false;
+        Room r = rooms.get(rng.nextInt(rooms.size()));
+	
+	while(!done){
+	    int x = r.x + 1 + rng.nextInt(r.xln - 2);
+	    int y = r.y + 1 + rng.nextInt(r.yln - 2);
+	    if(map[x][y].equals(".")){
+		enemies.add(new Enemy(x, y, 2));
+		done = true;
+	    }
+	}
     }
 }
