@@ -159,7 +159,7 @@ public class Rogue{
       for (int i = 0; i < floor.items.size() - 1; i++){
         if (floor.items.get(i).x == p.x && floor.items.get(i).y == p.y){
           inventory.add(floor.items.get(i));
-          floor.map[floor.items.get(i).x][floor.items.get(i).y] = ".";
+          floor.items.remove(i);
           return true;
         }
       }
@@ -185,8 +185,6 @@ public class Rogue{
 	    p.act(key, floor.map, floor.dynamicMap, floor.enemies);
 	    moveEnemies();
 	    updateFloor();
-      pickUp();
-      //if (pickUp())
 
       if(!p.hasAmulet && currentFloor + 1 == totalFloors && onAmulet()){
 		p.hasAmulet = true;
@@ -210,13 +208,17 @@ public class Rogue{
 		    }
 		}
 	    }
+
+    if (pickUp()){
+      floor.map[p.x][p.y] = ".";
+      System.out.println(inventory.get(inventory.size()-1).name);
+    }
 	    updateScreen();
 	}
     }
 
     public static void main(String[] args){
 	Rogue r = new Rogue();
-	r.floors.get(r.currentFloor).itemGeneration(r.p);
 	r.run();
     }
 }

@@ -73,7 +73,7 @@ public class Item{
 	}else if (temp == 2){
 	    type = "hands";
 	    rarity = rare(p);
-	    name = rarity + adjectives[rng.nextInt(100)] + " " + hands[rng.nextInt(2)];
+	    name = rarity + " " +adjectives[rng.nextInt(100)] + " " + hands[rng.nextInt(2)];
 	    stats = (int)((rng.nextInt(2) * p.level + 1) * raritybonus);
 	    pickedUp = false;
 	    description = "A " + name + ". This item has ar: " + stats;
@@ -81,7 +81,7 @@ public class Item{
 	}else if (temp == 3){
 	    type = "feet";
 	    rarity = rare(p);
-	    name = rarity + adjectives[rng.nextInt(100)] + " " + feet[rng.nextInt(5)];
+	    name = rarity + " " + adjectives[rng.nextInt(100)] + " " + feet[rng.nextInt(5)];
 	    stats = (int)((rng.nextInt(3) * p.level + 1) * raritybonus);
 	    pickedUp = false;
 	    description = "A " + name + ". This item has ar: " + stats;
@@ -126,12 +126,12 @@ public class Item{
 		raritybonus = 2.0;
 		return "epic";
 	    }
-	    if (rng.nextInt(51) - p.level < 0){
+	    if (rng.nextInt(1) - p.level < 0){
 		raritybonus = 3.0;
 		return "legendary";
 	    }
 	}
-	return "";
+	return "normal";
     }
 
     public boolean cursedOrBlessed(Player p){
@@ -141,14 +141,13 @@ public class Item{
 	int temp = rng.nextInt(20);
 	if (temp == 0){
 	    cursed = true;
-	    name = "Cursed " + name;
+	    name = "cursed " + name;
 	    stats = stats - (rng.nextInt(p.level) + 1);
 	    description = "This item is cursed! It has reduced stats";
 	    return true;
-	}
-	if (temp == 1){
+	}else if (temp == 1){
 	    blessed = true;
-	    name = "Blessed " + name;
+	    name = "blessed " + name;
 	    stats = stats + (rng.nextInt(p.level) + 1);
 	    description = "This item is blessed! It has increased stats";
 	    return true;

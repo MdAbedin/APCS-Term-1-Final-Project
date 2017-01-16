@@ -23,11 +23,10 @@ public class Floor{
 	for(int i = 0; i < rng.nextInt(rooms.size()) + 2; i++){
 	    makeEnemy();
 	}
-
+  itemGeneration(p);
 	if(currentFloor + 1 == totalFloors){
 	    placeAmulet();
 	}
-  itemGeneration(p);
     }
 
     public void initialize(){
@@ -179,22 +178,25 @@ public class Floor{
 	    items.add(new Item(p));
 	}
   for (int x = 0; x < num; x++){
-    Room roomAt = rooms.get(rng.nextInt(rooms.size() - 1));
+    Room roomAt = rooms.get(rng.nextInt(rooms.size()));
     Item goop = items.get(x);
+    boolean done = false;
+    goop.x = roomAt.x + rng.nextInt(roomAt.xln - 2) + 1;
+    goop.y = roomAt.y + rng.nextInt(roomAt.yln - 2) + 1;
     if (goop.type.equals("weapon")){
-      map[roomAt.x + rng.nextInt(roomAt.xln - 2) + 1][roomAt.y + rng.nextInt(roomAt.yln - 2) + 1] = ")";
+      map[goop.x][goop.y] = ")";
     }else if (goop.type.equals("chest")){
-      map[roomAt.x + rng.nextInt(roomAt.xln - 2) + 1][roomAt.y + rng.nextInt(roomAt.yln - 2) + 1] = "&";
+      map[goop.x][goop.y] = "&";
     }else if (goop.type.equals("hands")){
-      map[roomAt.x + rng.nextInt(roomAt.xln - 2) + 1][roomAt.y + rng.nextInt(roomAt.yln - 2) + 1] = "<";
+      map[goop.x][goop.y] = "<";
     }else if (goop.type.equals("feet")){
-      map[roomAt.x + rng.nextInt(roomAt.xln - 2) + 1][roomAt.y + rng.nextInt(roomAt.yln - 2) + 1] = ">";
+      map[goop.x][goop.y] = ">";
     }else if (goop.type.equals("food")){
-      map[roomAt.x + rng.nextInt(roomAt.xln - 2) + 1][roomAt.y + rng.nextInt(roomAt.yln - 2) + 1] = "0";
+      map[goop.x][goop.y] = "0";
     }else if (goop.type.equals("ring")){
-      map[roomAt.x + rng.nextInt(roomAt.xln - 2) + 1][roomAt.y + rng.nextInt(roomAt.yln - 2) + 1] = "{";
+      map[goop.x][goop.y] = "{";
     }else if (goop.type.equals("amulet")){
-      map[roomAt.x + rng.nextInt(roomAt.xln - 2) + 1][roomAt.y + rng.nextInt(roomAt.yln - 2) + 1] = "]";
+      map[goop.x][goop.y] = "]";
     }
   }
     }
