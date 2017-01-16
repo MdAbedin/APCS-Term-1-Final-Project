@@ -3,6 +3,7 @@ import java.util.ArrayList;
 
 public class Floor{
     public String[][] map = new String[80][22];
+    public String[][] dynamicMap = new String[80][22];
     public Random rng = new Random();
     public ArrayList<Room> rooms = new ArrayList<Room>();
     public ArrayList<Integer> sections = new ArrayList<Integer>();
@@ -17,7 +18,7 @@ public class Floor{
 	    connectRooms();
 	}
 	placeStairs();
-	//makeEnemy();
+	makeEnemy();
 	
 	if(currentFloor + 1 == totalFloors){
 	    placeAmulet();
@@ -28,6 +29,7 @@ public class Floor{
 	for(int x = 0; x < map.length; x++){
 	    for(int y = 0; y < map[0].length; y++){
 		map[x][y] = " ";
+		dynamicMap[x][y] = " ";
 	    }
 	}
     }

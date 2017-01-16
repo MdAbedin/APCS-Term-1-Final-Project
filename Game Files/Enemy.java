@@ -11,17 +11,23 @@ public class Enemy{
 	this.hp = hp;
     }
 
-    public void act(String[][] map, Player p){
+    public void act(String[][] map, String[][] dynamicMap, Player p){
 	int xDir = rng.nextInt(3)-1;
-	int yDir = rng.nextInt(3)-1;
-	
-	if(canMoveTo(x+xDir, y+yDir, map)){
+	int yDir = 0;
+	if(xDir == 0){
+	    yDir = rng.nextInt(3)-1;
+	}
+	dynamicMap[x][y] = " ";
+		    
+	if(canMoveTo(x+xDir, y+yDir, map, dynamicMap)){
 	    x += xDir;
 	    y += yDir;
 	}
+
+	dynamicMap[x][y] = "E";
     }
 
-    public boolean canMoveTo(int x, int y, String[][] map){
-	return map[x][y].equals(".") || map[x][y].equals("+") || map[x][y].equals("#") || map[x][y].equals("%") || map[x][y].equals("*");
+    public boolean canMoveTo(int x, int y, String[][] map, String[][] dynamicMap){
+	return (map[x][y].equals(".") || map[x][y].equals("+") || map[x][y].equals("#") || map[x][y].equals("%") || map[x][y].equals("*")) && dynamicMap[x][y].equals(" ");
     }
 }

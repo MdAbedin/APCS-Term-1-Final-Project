@@ -124,7 +124,7 @@ public class Rogue{
 	printMessage();
 	printStats();
 	printPlayer();
-	//printEnemies();
+	printEnemies();
 	csi.refresh();
     }
 
@@ -161,9 +161,8 @@ public class Rogue{
     }
 
     public void moveEnemies(){
-        Floor f = floors.get(currentFloor);
-	for(int i = 0; i < f.enemies.size(); i++){
-	    f.enemies.get(i).act(f.map, p);
+	for(int i = 0; i < floor.enemies.size(); i++){
+	    floor.enemies.get(i).act(floor.map, floor.dynamicMap, p);
 	}
     }
     
@@ -177,8 +176,8 @@ public class Rogue{
 	initialize();
 	while(running){
 	    int key = csi.inkey().code;
-	    p.act(key, floors.get(currentFloor).map);
-	    //moveEnemies();
+	    p.act(key, floor.map, floor.dynamicMap);
+	    moveEnemies();
 	    updateFloor();
 
 	    if(!p.hasAmulet && currentFloor + 1 == totalFloors && onAmulet()){
@@ -188,6 +187,7 @@ public class Rogue{
 
 	    if(onStairs()){
 		if(key == CharKey.MORETHAN){
+		    floor.dynamicMap[p.x][p.y] = " ";
 		    changeFloor(currentFloor + 1);
 		}
 		else if(key == CharKey.LESSTHAN){
@@ -197,6 +197,7 @@ public class Rogue{
 			break;
 		    }
 		    else{
+			floor.dynamicMap[p.x][p.y] = " ";
 			changeFloor(currentFloor - 1);
 		    }
 		}

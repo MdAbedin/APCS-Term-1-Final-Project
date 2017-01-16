@@ -12,12 +12,13 @@ public class Player{
 	this.y = y;
     }
 
-    public void act(int key, String[][] map){
+    public void act(int key, String[][] map, String[][] dynamicMap){
 	message = "";
-
+	dynamicMap[x][y] = " ";
+	
 	switch (key){
 	case CharKey.UARROW:
-	    if(canMoveTo(x, y-1, map)){
+	    if(canMoveTo(x, y-1, map, dynamicMap)){
 		y--;
 	    }
 	    else{
@@ -26,7 +27,7 @@ public class Player{
 	    }
 	    break;
 	case CharKey.DARROW:
-	    if(canMoveTo(x, y+1, map)){
+	    if(canMoveTo(x, y+1, map, dynamicMap)){
 		y++;
 	    }
 	    else{
@@ -35,7 +36,7 @@ public class Player{
 	    }
 	    break;
 	case CharKey.LARROW:
-	    if(canMoveTo(x-1, y, map)){
+	    if(canMoveTo(x-1, y, map, dynamicMap)){
 		x--;
 	    }
 	    else{
@@ -44,7 +45,7 @@ public class Player{
 	    }
 	    break;
 	case CharKey.RARROW:
-	    if(canMoveTo(x+1, y, map)){
+	    if(canMoveTo(x+1, y, map, dynamicMap)){
 		x++;
 	    }
 	    else{
@@ -53,9 +54,11 @@ public class Player{
 	    }
 	    break;
 	}
+
+	dynamicMap[x][y] = "@";
     }
 
-    public boolean canMoveTo(int x, int y, String[][] map){
-	return map[x][y].equals(".") || map[x][y].equals("+") || map[x][y].equals("#") || map[x][y].equals("%") || map[x][y].equals("*");
+    public boolean canMoveTo(int x, int y, String[][] map, String[][] dynamicMap){
+	return (map[x][y].equals(".") || map[x][y].equals("+") || map[x][y].equals("#") || map[x][y].equals("%") || map[x][y].equals("*")) && dynamicMap[x][y].equals(" ");
     }
 }
