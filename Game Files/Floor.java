@@ -8,6 +8,7 @@ public class Floor{
     public ArrayList<Room> rooms = new ArrayList<Room>();
     public ArrayList<Integer> sections = new ArrayList<Integer>();
     public ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+    public ArrayList<Item> items = new ArrayList<Item>();
     public int stairsX, stairsY;
     public int amuletX, amuletY;
 
@@ -22,7 +23,7 @@ public class Floor{
 	for(int i = 0; i < rng.nextInt(rooms.size()) + 2; i++){
 	    makeEnemy();
 	}
-	
+
 	if(currentFloor + 1 == totalFloors){
 	    placeAmulet();
 	}
@@ -173,7 +174,6 @@ public class Floor{
 
     public void itemGeneration(Player p){
 	int num = rng.nextInt(5) + 1 + p.level;
-        ArrayList<Item> items = new ArrayList<Item>();
 	for (int i = 0; i < num; i++){
 	    items.add(new Item(p));
 	}
@@ -205,7 +205,7 @@ public class Floor{
     public void makeEnemy(){
 	boolean done = false;
         Room r = rooms.get(rng.nextInt(rooms.size()));
-	
+
 	while(!done){
 	    int x = r.x + 1 + rng.nextInt(r.xln - 2);
 	    int y = r.y + 1 + rng.nextInt(r.yln - 2);

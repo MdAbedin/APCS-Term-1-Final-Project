@@ -19,7 +19,7 @@ public class Rogue{
 	for(int i = 0; i < totalFloors; i++){
 	    floors.add(new Floor(i, totalFloors));
 	}
-	
+
 	floor = floors.get(currentFloor);
 	p = new Player(floor.rooms.get(0).centerX, floor.rooms.get(0).centerY);
     }
@@ -111,7 +111,7 @@ public class Rogue{
     public void printPlayer(){
 	csi.print(p.x, p.y + 1, "@", CSIColor.BRIGHT_GREEN);
     }
-    
+
     public void updateScreen(){
 	csi.cls();
 	csi.restore();
@@ -130,7 +130,7 @@ public class Rogue{
     public boolean onAmulet(){
 	return p.x == floor.amuletX && p.y == floor.amuletY;
     }
-    
+
     public void changeFloor(int index){
 	if(index >= 0 && index < totalFloors){
 	    currentFloor = index;
@@ -145,7 +145,7 @@ public class Rogue{
 	for(int i = 0; i < floor.rooms.size(); i++){
 	    Room room = floor.rooms.get(i);
 	    room.isInside = room.isInside(p);
-	    
+
 	    if(!room.discovered){
 		room.discovered = room.isInside(p);
 	    }
@@ -160,7 +160,7 @@ public class Rogue{
 	    floor.enemies.get(i).act(floor.map, floor.dynamicMap, p);
 	}
     }
-    
+
     public void endGame(){
 	csi.cls();
 	csi.print(40, 12, "YOU WIN", CSIColor.YELLOW);
@@ -203,10 +203,7 @@ public class Rogue{
 
     public static void main(String[] args){
 	Rogue r = new Rogue();
-<<<<<<< HEAD
 	r.floors.get(r.currentFloor).itemGeneration(r.p);
-=======
->>>>>>> 27c362e6d5dd890077080672040153e9213e8a73
 	r.run();
     }
 }
