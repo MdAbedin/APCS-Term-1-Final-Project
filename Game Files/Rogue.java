@@ -163,40 +163,42 @@ public class Rogue{
 
     public void endGame(){
 	csi.cls();
-	csi.print(40, 12, "YOU WIN", CSIColor.YELLOW);
+	csi.print(36, 12, "YOU WIN", CSIColor.YELLOW);
 	csi.refresh();
     }
 
     public void run(){
 	initialize();
 	while(running){
-	    int key = csi.inkey().code;
-	    p.act(key, floor.map, floor.dynamicMap, floor.enemies);
+	    p.moved = false;
+	    while(!p.moved){
+		int key = csi.inkey().code;
+		p.act(key, floor.map, floor.dynamicMap, floor.enemies);
+		if(!p.hasAmulet && currentFloor + 1 == totalFloors && onAmulet()){
+		    p.hasAmulet = true;
+		    floor.removeAmulet();
+		}
+
+		if(onStairs()){
+		    if(key == CharKey.MORETHAN){
+			floor.dynamicMap[p.x][p.y] = " ";
+			changeFloor(currentFloor + 1);
+		    }
+		    else if(key == CharKey.LESSTHAN){
+			if(p.hasAmulet && currentFloor == 0){
+			    endGame();
+			    running = false;
+			    break;
+			}
+			else{
+			    floor.dynamicMap[p.x][p.y] = " ";
+			    changeFloor(currentFloor - 1);
+			}
+		    }
+		}
+	    }
 	    moveEnemies();
 	    updateFloor();
-
-	    if(!p.hasAmulet && currentFloor + 1 == totalFloors && onAmulet()){
-		p.hasAmulet = true;
-		floor.removeAmulet();
-	    }
-
-	    if(onStairs()){
-		if(key == CharKey.MORETHAN){
-		    floor.dynamicMap[p.x][p.y] = " ";
-		    changeFloor(currentFloor + 1);
-		}
-		else if(key == CharKey.LESSTHAN){
-		    if(p.hasAmulet && currentFloor == 0){
-			endGame();
-			running = false;
-			break;
-		    }
-		    else{
-			floor.dynamicMap[p.x][p.y] = " ";
-			changeFloor(currentFloor - 1);
-		    }
-		}
-	    }
 	    updateScreen();
 	}
     }

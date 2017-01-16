@@ -7,6 +7,7 @@ public class Player{
     public int bumps;
     public String message;
     public boolean hasAmulet = false;
+    public boolean moved = false;
 
     public Player(int x, int y){
 	this.x = x;
@@ -35,6 +36,7 @@ public class Player{
 	if(canMoveTo(x+xDir, y+yDir, map, dynamicMap)){
 	    x += xDir;
 	    y += yDir;
+	    moved = true;
 	}
 
 	if(dynamicMap[x+xDir][y+yDir].equals("E")){
@@ -45,6 +47,7 @@ public class Player{
 		    e.living = false;
 		}
 	    }
+	    moved = true;
 	}
 	
 	dynamicMap[x][y] = "@";
