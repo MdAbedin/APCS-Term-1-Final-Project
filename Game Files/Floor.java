@@ -27,7 +27,7 @@ public class Floor{
 	if(currentFloor + 1 == totalFloors){
 	    placeAmulet();
 	}
-  itemGeneration(p);
+	//itemGeneration(p);
     }
 
     public void initialize(){
@@ -178,25 +178,25 @@ public class Floor{
 	for (int i = 0; i < num; i++){
 	    items.add(new Item(p));
 	}
-  for (int x = 0; x < num; x++){
-    Room roomAt = rooms.get(rng.nextInt(rooms.size() - 1));
-    Item goop = items.get(x);
-    if (goop.type.equals("weapon")){
-      map[roomAt.x + rng.nextInt(roomAt.xln - 2) + 1][roomAt.y + rng.nextInt(roomAt.yln - 2) + 1] = ")";
-    }else if (goop.type.equals("chest")){
-      map[roomAt.x + rng.nextInt(roomAt.xln - 2) + 1][roomAt.y + rng.nextInt(roomAt.yln - 2) + 1] = "&";
-    }else if (goop.type.equals("hands")){
-      map[roomAt.x + rng.nextInt(roomAt.xln - 2) + 1][roomAt.y + rng.nextInt(roomAt.yln - 2) + 1] = "<";
-    }else if (goop.type.equals("feet")){
-      map[roomAt.x + rng.nextInt(roomAt.xln - 2) + 1][roomAt.y + rng.nextInt(roomAt.yln - 2) + 1] = ">";
-    }else if (goop.type.equals("food")){
-      map[roomAt.x + rng.nextInt(roomAt.xln - 2) + 1][roomAt.y + rng.nextInt(roomAt.yln - 2) + 1] = "0";
-    }else if (goop.type.equals("ring")){
-      map[roomAt.x + rng.nextInt(roomAt.xln - 2) + 1][roomAt.y + rng.nextInt(roomAt.yln - 2) + 1] = "{";
-    }else if (goop.type.equals("amulet")){
-      map[roomAt.x + rng.nextInt(roomAt.xln - 2) + 1][roomAt.y + rng.nextInt(roomAt.yln - 2) + 1] = "]";
-    }
-  }
+	for (int x = 0; x < num; x++){
+	    Room roomAt = rooms.get(rng.nextInt(rooms.size() - 1));
+	    Item goop = items.get(x);
+	    if (goop.type.equals("weapon")){
+		map[roomAt.x + rng.nextInt(roomAt.xln - 2) + 1][roomAt.y + rng.nextInt(roomAt.yln - 2) + 1] = ")";
+	    }else if (goop.type.equals("chest")){
+		map[roomAt.x + rng.nextInt(roomAt.xln - 2) + 1][roomAt.y + rng.nextInt(roomAt.yln - 2) + 1] = "&";
+	    }else if (goop.type.equals("hands")){
+		map[roomAt.x + rng.nextInt(roomAt.xln - 2) + 1][roomAt.y + rng.nextInt(roomAt.yln - 2) + 1] = "<";
+	    }else if (goop.type.equals("feet")){
+		map[roomAt.x + rng.nextInt(roomAt.xln - 2) + 1][roomAt.y + rng.nextInt(roomAt.yln - 2) + 1] = ">";
+	    }else if (goop.type.equals("food")){
+		map[roomAt.x + rng.nextInt(roomAt.xln - 2) + 1][roomAt.y + rng.nextInt(roomAt.yln - 2) + 1] = "0";
+	    }else if (goop.type.equals("ring")){
+		map[roomAt.x + rng.nextInt(roomAt.xln - 2) + 1][roomAt.y + rng.nextInt(roomAt.yln - 2) + 1] = "{";
+	    }else if (goop.type.equals("amulet")){
+		map[roomAt.x + rng.nextInt(roomAt.xln - 2) + 1][roomAt.y + rng.nextInt(roomAt.yln - 2) + 1] = "]";
+	    }
+	}
     }
 
     public void removeAmulet(){

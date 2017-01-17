@@ -10,8 +10,8 @@ public class Rogue{
     public ArrayList<Floor> floors = new ArrayList<Floor>();
     public int currentFloor = 0;
     public Floor floor;
-    public Player p = new Player(0, 0);
-    public int currentRoom = 0;
+    public Player p;
+    public Room currentRoom;
     public int totalFloors = 3;
     public boolean running = true;
     public ArrayList<Item> inventory = new ArrayList<Item>();
@@ -23,6 +23,9 @@ public class Rogue{
 
 	floor = floors.get(currentFloor);
 	p = new Player(floor.rooms.get(0).centerX, floor.rooms.get(0).centerY);
+	currentRoom = floor.rooms.get(0);
+	floor.itemGeneration(p);
+	initialize();
     }
 
     public void initialize(){
@@ -98,11 +101,9 @@ public class Rogue{
 	stats += p.exp;
 	stats += "/";
 	stats += p.maxexp;
-	stats += " Bumps: ";
-	stats += p.bumps;
 	stats += " Floor: ";
 	stats += currentFloor;
-	csi.print(0, 24, stats, CSIColor.MAGENTA);
+	csi.print(0, 23, stats, CSIColor.MAGENTA);
     }
 
     public void printMessage(){
@@ -151,7 +152,7 @@ public class Rogue{
 		room.discovered = room.isInside(p);
 	    }
 	    if(room.isInside){
-		currentRoom = i;
+		currentRoom = room;
 	    }
 	}
     }
@@ -168,31 +169,32 @@ public class Rogue{
 
     public void moveEnemies(){
 	for(int i = 0; i < floor.enemies.size(); i++){
-	    floor.enemies.get(i).act(floor.map, floor.dynamicMap, p);
+	    floor.enemies.get(i).act(floor.map, floor.dynamicMap, p, currentRoom);
 	}
     }
 
-    public void endGame(){
+    public void winGame(){
 	csi.cls();
-	csi.print(40, 12, "YOU WIN", CSIColor.YELLOW);
+	csi.print(36, 12, "YOU WIN", CSIColor.YELLOW);
 	csi.refresh();
     }
 
+    public void loseGame(){
+	csi.cls();
+	csi.print(36, 12, "YOU DIED", CSIColor.RED);
+	csi.refresh();
+    }
+    
     public void run(){
-	initialize();
 	while(running){
 	    int key = csi.inkey().code;
 	    p.act(key, floor.map, floor.dynamicMap, floor.enemies);
-	    moveEnemies();
-	    updateFloor();
-      pickUp();
-      //if (pickUp())
-
-      if(!p.hasAmulet && currentFloor + 1 == totalFloors && onAmulet()){
+	    pickUp();
+	    if(!p.hasAmulet && currentFloor + 1 == totalFloors && onAmulet()){
 		p.hasAmulet = true;
 		floor.removeAmulet();
 	    }
-
+	    
 	    if(onStairs()){
 		if(key == CharKey.MORETHAN){
 		    floor.dynamicMap[p.x][p.y] = " ";
@@ -200,7 +202,7 @@ public class Rogue{
 		}
 		else if(key == CharKey.LESSTHAN){
 		    if(p.hasAmulet && currentFloor == 0){
-			endGame();
+			winGame();
 			running = false;
 			break;
 		    }
@@ -210,13 +212,22 @@ public class Rogue{
 		    }
 		}
 	    }
+	    moveEnemies();
+	    if(p.hp <= 0){
+		loseGame();
+		running = false;
+		break;
+	    }
+	    updateFloor();
 	    updateScreen();
+	    p.moved = false;
 	}
-    }
 
+    }
+    
     public static void main(String[] args){
 	Rogue r = new Rogue();
-	r.floors.get(r.currentFloor).itemGeneration(r.p);
+	//r.floors.get(r.currentFloor).itemGeneration(r.p);
 	r.run();
     }
 }
