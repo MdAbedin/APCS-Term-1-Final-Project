@@ -163,7 +163,7 @@ public class Floor{
 	while(!done){
 	    int i = rng.nextInt(rooms.size());
 	    if(map[rooms.get(i).centerX][rooms.get(i).centerY].equals(".")){
-		map[rooms.get(i).centerX][rooms.get(i).centerY] = "*";
+		map[rooms.get(i).centerX][rooms.get(i).centerY] = "?";
 		amuletX = rooms.get(i).centerX;
 		amuletY = rooms.get(i).centerY;
 		done = true;
