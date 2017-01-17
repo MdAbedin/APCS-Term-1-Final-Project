@@ -15,6 +15,7 @@ public class Player{
     }
 
     public void act(int key, String[][] map, String[][] dynamicMap, ArrayList<Enemy> enemies){
+	moved = false;
 	message = "";
 	dynamicMap[x][y] = " ";
 	int xDir = 0;
@@ -33,18 +34,21 @@ public class Player{
 	    xDir++;
 	}
 	
-	if(canMoveTo(x+xDir, y+yDir, map, dynamicMap)){
+	if(canMoveTo(x+xDir, y+yDir, map, dynamicMap) && xDir + yDir != 0){
 	    x += xDir;
 	    y += yDir;
+	    dynamicMap[x][y] = "@";
 	    moved = true;
 	}
-
-	if(dynamicMap[x+xDir][y+yDir].equals("E")){
+	else if(dynamicMap[x+xDir][y+yDir].equals("E")){
 	    message = "Attacked E";
 	    for(Enemy e: enemies){
 		if(e.living && e.x == x+xDir && e.y == y+yDir){
 		    dynamicMap[x+xDir][y+yDir] = " ";
-		    e.living = false;
+		    e.hp -= 1;
+		    if(e.hp <= 0){
+			e.living = false;
+		    }
 		}
 	    }
 	    moved = true;
