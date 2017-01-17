@@ -126,7 +126,7 @@ public class Item{
 		raritybonus = 2.0;
 		return "epic";
 	    }
-	    if (rng.nextInt(1) - p.level < 0){
+	    if (rng.nextInt(51) - p.level < 0){
 		raritybonus = 3.0;
 		return "legendary";
 	    }

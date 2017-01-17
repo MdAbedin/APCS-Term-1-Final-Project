@@ -161,7 +161,6 @@ public class Rogue{
 	    if (floor.items.get(i).x == p.x && floor.items.get(i).y == p.y){
 		inventory.add(floor.items.get(i));
 		floor.items.remove(i);
-		p.message = "You picked up" + " " + floor.items.get(i).name;
 		return true;
 	    }
 	}
@@ -185,7 +184,7 @@ public class Rogue{
 	csi.print(36, 12, "YOU DIED", CSIColor.RED);
 	csi.refresh();
     }
-    
+
     public void run(){
 	while(running){
 	    int key = csi.inkey().code;
@@ -195,7 +194,7 @@ public class Rogue{
 		p.hasAmulet = true;
 		floor.removeAmulet();
 	    }
-	    
+
 	    if(onStairs()){
 		if(key == CharKey.MORETHAN){
 		    floor.dynamicMap[p.x][p.y] = " ";
@@ -221,15 +220,17 @@ public class Rogue{
 	    }
 	    updateFloor();
 
-	    if (pickUp()){
-		floor.map[p.x][p.y] = ".";
-		System.out.println(inventory.get(inventory.size()-1).name);
-	    }
+      if (pickUp()){
+    floor.map[p.x][p.y] = ".";
+    System.out.println(inventory.get(inventory.size()-1).name);
+    p.message = "You picked up" + " " + inventory.get(inventory.size()-1).name;
+      }
+
 	    updateScreen();
 	}
 
     }
-    
+
     public static void main(String[] args){
 	Rogue r = new Rogue();
 	//r.floors.get(r.currentFloor).itemGeneration(r.p);

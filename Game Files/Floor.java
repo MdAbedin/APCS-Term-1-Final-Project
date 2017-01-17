@@ -177,26 +177,48 @@ public class Floor{
 	for (int i = 0; i < num; i++){
 	    items.add(new Item(p));
 	}
-	for (int x = 0; x < num; x++){
-	    Room roomAt = rooms.get(rng.nextInt(rooms.size() - 1));
-	    Item goop = items.get(x);
-	    if (goop.type.equals("weapon")){
-		map[roomAt.x + rng.nextInt(roomAt.xln - 2) + 1][roomAt.y + rng.nextInt(roomAt.yln - 2) + 1] = ")";
+	for (int g = 0; g < num; g++){
+	    Room roomAt = rooms.get(rng.nextInt(rooms.size()));
+      Item goop = items.get(g);
+      goop.x = roomAt.x + rng.nextInt(roomAt.xln - 2) + 1;
+      goop.y = roomAt.y + rng.nextInt(roomAt.yln - 2) + 1;
+      items.get(g).x = goop.x;
+      items.get(g).y = goop.y;
+      if (goop.type.equals("weapon")){
+		map[goop.x][goop.y] = ")";
 	    }else if (goop.type.equals("chest")){
-		map[roomAt.x + rng.nextInt(roomAt.xln - 2) + 1][roomAt.y + rng.nextInt(roomAt.yln - 2) + 1] = "&";
+		map[goop.x][goop.y] = "&";
 	    }else if (goop.type.equals("hands")){
-		map[roomAt.x + rng.nextInt(roomAt.xln - 2) + 1][roomAt.y + rng.nextInt(roomAt.yln - 2) + 1] = "<";
+		map[goop.x][goop.y] = "<";
 	    }else if (goop.type.equals("feet")){
-		map[roomAt.x + rng.nextInt(roomAt.xln - 2) + 1][roomAt.y + rng.nextInt(roomAt.yln - 2) + 1] = ">";
+		map[goop.x][goop.y] = ">";
 	    }else if (goop.type.equals("food")){
-		map[roomAt.x + rng.nextInt(roomAt.xln - 2) + 1][roomAt.y + rng.nextInt(roomAt.yln - 2) + 1] = "0";
+		map[goop.x][goop.y] = "0";
 	    }else if (goop.type.equals("ring")){
-		map[roomAt.x + rng.nextInt(roomAt.xln - 2) + 1][roomAt.y + rng.nextInt(roomAt.yln - 2) + 1] = "{";
+		map[goop.x][goop.y] = "{";
 	    }else if (goop.type.equals("amulet")){
-		map[roomAt.x + rng.nextInt(roomAt.xln - 2) + 1][roomAt.y + rng.nextInt(roomAt.yln - 2) + 1] = "]";
-	    }
+		map[goop.x][goop.y] = "]";
+  }
+
+      //items.get(g).x = goop.x;
+      //items.get(g).y = roomAt.x + rng.nextInt(roomAt.yln - 2) + 1;
+	    //if (items.get(g).type.equals("weapon")){
+		//map[items.get(g).x][items.get(g).y] = ")";
+	    //}else if (items.get(g).type.equals("chest")){
+		//map[items.get(g).x][items.get(g).y] = "&";
+	    //}else if (items.get(g).type.equals("hands")){
+		//map[items.get(g).x][items.get(g).y] = "<";
+	    //}else if (items.get(g).type.equals("feet")){
+		//map[items.get(g).x][items.get(g).y] = ">";
+	    //}else if (items.get(g).type.equals("food")){
+		//map[items.get(g).x][items.get(g).y] = "0";
+	    //}else if (items.get(g).type.equals("ring")){
+		//map[items.get(g).x][items.get(g).y] = "{";
+	    //}else if (items.get(g).type.equals("amulet")){
+		//map[items.get(g).x][items.get(g).y] = "]";
+	    //}
 	}
-    }
+}
 
     public void removeAmulet(){
 	map[amuletX][amuletY] = ".";
