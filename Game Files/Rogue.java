@@ -157,14 +157,15 @@ public class Rogue{
 	}
     }
     public boolean pickUp(){
-      for (int i = 0; i < floor.items.size() - 1; i++){
-        if (floor.items.get(i).x == p.x && floor.items.get(i).y == p.y){
-          inventory.add(floor.items.get(i));
-          floor.map[floor.items.get(i).x][floor.items.get(i).y] = ".";
-          return true;
-        }
-      }
-      return false;
+	for (int i = 0; i < floor.items.size() - 1; i++){
+	    if (floor.items.get(i).x == p.x && floor.items.get(i).y == p.y){
+		inventory.add(floor.items.get(i));
+		floor.items.remove(i);
+		p.message = "You picked up" + " " + floor.items.get(i).name;
+		return true;
+	    }
+	}
+	return false;
     }
 
     public void moveEnemies(){
@@ -219,8 +220,12 @@ public class Rogue{
 		break;
 	    }
 	    updateFloor();
+
+	    if (pickUp()){
+		floor.map[p.x][p.y] = ".";
+		System.out.println(inventory.get(inventory.size()-1).name);
+	    }
 	    updateScreen();
-	    p.moved = false;
 	}
 
     }

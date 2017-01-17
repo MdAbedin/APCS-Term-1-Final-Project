@@ -23,11 +23,10 @@ public class Floor{
 	for(int i = 0; i < rng.nextInt(rooms.size()) + 2; i++){
 	    makeEnemy();
 	}
-
+	//itemGeneration(p);
 	if(currentFloor + 1 == totalFloors){
 	    placeAmulet();
 	}
-	//itemGeneration(p);
     }
 
     public void initialize(){
@@ -52,7 +51,7 @@ public class Floor{
 	    if(!sections.contains(room.section) && reachable(room) && fits(room)){
 		for(int c = x; c < x + xln; c++){
 		    for(int r = y; r < y + yln; r++){
-		if(r == y || r == y+yln-1){
+			if(r == y || r == y+yln-1){
 			    map[c][r] = "-";
 			}
 			else if(c == x || c == x+xln-1){
@@ -164,7 +163,7 @@ public class Floor{
 	while(!done){
 	    int i = rng.nextInt(rooms.size());
 	    if(map[rooms.get(i).centerX][rooms.get(i).centerY].equals(".")){
-		map[rooms.get(i).centerX][rooms.get(i).centerY] = "*";
+		map[rooms.get(i).centerX][rooms.get(i).centerY] = "?";
 		amuletX = rooms.get(i).centerX;
 		amuletY = rooms.get(i).centerY;
 		done = true;
