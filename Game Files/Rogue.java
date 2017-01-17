@@ -160,6 +160,7 @@ public class Rogue{
         if (floor.items.get(i).x == p.x && floor.items.get(i).y == p.y){
           inventory.add(floor.items.get(i));
           floor.items.remove(i);
+          p.message = "You picked up" + " " + floor.items.get(i).name;
           return true;
         }
       }
