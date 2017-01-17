@@ -19,7 +19,6 @@ Your goal is to get to the last floor, pick up an amulet, and travel back to the
 -Move with arrow keys
 -Go down a floor with ">", go up a floor with "<" while on a staircase
 -Attack enemies by moving towards them
--Open the inventory with "i"
 
 Known Bugs:
 -Items will sometimes not be picked up
